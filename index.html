@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Website in 15 Minutes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="QB3-Berkeley Postdoc Seminar, 9 Nov 2026: build a personal academic website from nothing with AI, host it free on GitHub Pages or Vercel, and add your own domain. Every prompt has a Copy button.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: ten full-screen "slides" that double as a follow-along protocol. On a projector each section fills the screen and arrow keys step through them; on a laptop or phone it is one scrolling page with Copy buttons. Steps are numbered because they are a real sequence. */
+:root {
+  --bg: #F5F6F3;
+  --alt: #ECEFE9;
+  --surface: #FFFFFF;
+  --fg: #1B2027;
+  --muted: #56606A;
+  --rule: #D6DBD5;
+  --accent: #1D4E89;
+  --accent-soft: #E3EBF5;
+  --mark: #FBEFC5;
+  --mark-ink: #5A4100;
+  --code-bg: #ECEFEA;
+  --ok: #2E6A3A;
+  --display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --body: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'IBM Plex Mono', Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111519; --alt: #151A1F; --surface: #1A1F25; --fg: #E3E7EB; --muted: #9AA5AF; --rule: #2B3239;
+    --accent: #8DB5EC; --accent-soft: #1B2A3D; --mark: #3A3116; --mark-ink: #F3DB93;
+    --code-bg: #1E242A; --ok: #82C690; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111519; --alt: #151A1F; --surface: #1A1F25; --fg: #E3E7EB; --muted: #9AA5AF; --rule: #2B3239;
+  --accent: #8DB5EC; --accent-soft: #1B2A3D; --mark: #3A3116; --mark-ink: #F3DB93;
+  --code-bg: #1E242A; --ok: #82C690; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { font-size: clamp(16px, 0.55vw + 9.5px, 22px); scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (min-width: 900px) and (min-height: 620px) { html { scroll-snap-type: y proximity; } }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--body); font-size: 1.05rem; line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px;
+}
+
+/* Slides */
+.slide {
+  min-height: 100svh; scroll-snap-align: start;
+  padding-block: clamp(28px, 6vh, 72px) clamp(56px, 8vh, 88px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  border-top: 1px solid var(--rule);
+}
+.slide:nth-of-type(even) { background: var(--alt); }
+.slide:first-of-type { border-top: none; }
+.inner { max-width: 78rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1.4rem; }
+.eyebrow {
+  font-family: var(--mono); font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--accent); margin: 0;
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 600; text-wrap: balance; line-height: 1.12; margin: 0; }
+h1 { font-size: clamp(2.3rem, 4.6vw, 4.4rem); letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.9rem, 3.2vw, 3.1rem); }
+h3 { font-size: 1.35rem; }
+.head { display: flex; flex-direction: column; gap: 0.5rem; }
+.lede { font-size: 1.3rem; color: var(--muted); margin: 0; max-width: 42rem; }
+p { margin: 0; }
+ul, ol { margin: 0; padding-left: 1.25em; display: flex; flex-direction: column; gap: 0.45rem; }
+li::marker { color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: 0.88rem; }
+b, strong { font-weight: 600; }
+code, kbd {
+  font-family: var(--mono); font-size: 0.86em; background: var(--code-bg);
+  padding: 1px 6px; border-radius: 4px; overflow-wrap: anywhere;
+}
+kbd { border: 1px solid var(--rule); background: var(--surface); }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem; align-items: start; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.grid5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.8rem; }
+.cover { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 22rem); gap: 3rem; align-items: center; min-height: calc(100svh - 160px); }
+@media (max-width: 900px) {
+  .grid2, .grid3, .cover { grid-template-columns: 1fr; }
+  .grid5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cover { min-height: 0; gap: 2rem; }
+}
+.card {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 12px;
+  padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; min-width: 0;
+}
+.card h3 { font-size: 1.2rem; }
+.card .tag { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+a.card { color: inherit; text-decoration: none; }
+a.card:hover { border-color: var(--accent); }
+a.card .url { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); overflow-wrap: anywhere; }
+.stepcard .n { font-family: var(--mono); color: var(--accent); font-size: 0.85rem; }
+.stepcard h3 { font-size: 1.15rem; }
+
+/* Cover */
+.qrcard { background: #FFFFFF; color: #1B2027; border: 1px solid var(--rule); border-radius: 18px; padding: 1.2rem; display: flex; flex-direction: column; gap: 0.7rem; align-items: center; text-align: center; }
+.qrcard svg { width: 100%; height: auto; max-width: 18rem; display: block; }
+.qrcard .big { font-family: var(--display); font-weight: 600; font-size: 1.4rem; }
+.qrcard .url { font-family: var(--mono); font-size: 0.9rem; overflow-wrap: anywhere; }
+.qrcard button.copy { border-color: #1D4E89; background: #1D4E89; color: #FFFFFF; }
+.qrcard button.copy[data-done] { background: #FFFFFF; color: #1D4E89; }
+.byline { font-size: 1.05rem; }
+
+/* Callouts */
+.note { border-left: 3px solid var(--accent); background: var(--surface); padding: 0.7rem 1rem; border-radius: 0 8px 8px 0; }
+.note .lab { display: block; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+.note.critical { border-left-color: var(--mark-ink); background: var(--mark); color: var(--mark-ink); }
+.note.critical .lab { color: var(--mark-ink); }
+.note.pause { border-left-color: var(--ok); }
+.note.pause .lab { color: var(--ok); }
+
+/* Timeline */
+.timeline { list-style: none; padding: 0; gap: 0.9rem; }
+.timeline li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.8rem; border-top: 2px solid var(--accent); padding-top: 0.5rem; }
+.timeline .when { font-family: var(--display); font-weight: 600; font-size: 1.2rem; }
+
+/* Copy blocks */
+.copyblock { border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); overflow: hidden; min-width: 0; }
+.copybar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px 6px 6px 12px; border-bottom: 1px solid var(--rule); background: var(--code-bg); }
+.copybar span { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); min-width: 0; }
+.copyblock pre { margin: 0; padding: 0.8rem 1rem; font-family: var(--mono); font-size: 0.8rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 52svh; overflow-y: auto; }
+.copyblock.short pre { max-height: none; }
+.fill { background: var(--mark); color: var(--mark-ink); border-radius: 3px; padding: 0 2px; }
+button.copy {
+  font-family: var(--body); font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  border: 1px solid var(--accent); background: var(--accent); color: var(--surface);
+  padding: 4px 12px; border-radius: 6px; flex: none; min-width: 4.6rem;
+}
+button.copy[data-done] { background: var(--surface); color: var(--accent); }
+.inline-copy { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.inline-copy button.copy { padding: 1px 8px; min-width: 0; font-size: 0.75rem; }
+.prompts { list-style: none; padding: 0; gap: 0.45rem; }
+.prompts li { display: flex; gap: 10px; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 0.45rem 0.5rem 0.45rem 0.8rem; font-size: 0.92rem; }
+.prompts li span { min-width: 0; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 0.5rem 0.8rem; border-top: 1px solid var(--rule); vertical-align: top; }
+thead th { border-top: none; font-family: var(--mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 500; background: var(--code-bg); }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+td .copy { margin-left: 6px; }
+.dns td:nth-child(3) { white-space: nowrap; }
+th.hl { color: var(--accent); }
+
+details { border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+details summary { cursor: pointer; padding: 0.6rem 1rem; font-weight: 600; }
+details > .body { padding: 0 1rem 1rem; display: flex; flex-direction: column; gap: 0.8rem; }
+details .copyblock { border-radius: 8px; }
+
+footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direction: column; gap: 0.3rem; }
+
+/* Presenter pager */
+.pager {
+  position: fixed; z-index: 5;
+  right: max(12px, env(safe-area-inset-right, 0px));
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  display: flex; align-items: center; gap: 4px;
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 999px; padding: 4px;
+  font-family: var(--mono); font-size: 0.78rem; color: var(--muted);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+.pager button { font: inherit; color: var(--fg); background: transparent; border: none; cursor: pointer; padding: 4px 10px; border-radius: 999px; }
+.pager button:hover { background: var(--accent-soft); }
+.pager .count { padding: 0 4px; font-variant-numeric: tabular-nums; }
+.pager .fs { display: none; }
+@media (min-width: 900px) { .pager .fs { display: inline-block; } }
+</style>
+</head>
+<body>
+<!-- 1 · Cover -->
+<section class="slide" id="start" aria-label="Slide 1: Cover">
+  <div class="inner">
+    <div class="cover">
+      <div class="head" style="gap:1.2rem">
+        <p class="eyebrow">QB3-Berkeley Postdoc Seminar · 9 Nov 2026 · 177 Stanley Hall</p>
+        <h1>From nothing to a live academic website in 15 minutes</h1>
+        <p class="lede">No coding. Free hosting on GitHub Pages or Vercel. About $11 a year if you want your own domain.</p>
+        <p class="byline"><b>Longfu Xu, PhD</b> · HHMI–Damon Runyon Fellow · Bustamante Lab, UC Berkeley</p>
+      </div>
+      <div class="qrcard">
+        <svg role="img" aria-label="QR code linking to the workshop protocol page" width="396" height="396" viewBox="0 0 396 396" xmlns="http://www.w3.org/2000/svg"><rect width="396" height="396" fill="#FFFFFF"/><path fill="#1B2027" d="M24 24h84v12h-84zM156 24h12v12h-12zM180 24h36v12h-36zM240 24h24v12h-24zM288 24h84v12h-84zM24 36h12v12h-12zM96 36h12v12h-12zM120 36h36v12h-36zM180 36h12v12h-12zM204 36h24v12h-24zM252 36h24v12h-24zM288 36h12v12h-12zM360 36h12v12h-12zM24 48h12v12h-12zM48 48h36v12h-36zM96 48h12v12h-12zM144 48h36v12h-36zM204 48h24v12h-24zM240 48h12v12h-12zM288 48h12v12h-12zM312 48h36v12h-36zM360 48h12v12h-12zM24 60h12v12h-12zM48 60h36v12h-36zM96 60h12v12h-12zM144 60h12v12h-12zM192 60h12v12h-12zM252 60h24v12h-24zM288 60h12v12h-12zM312 60h36v12h-36zM360 60h12v12h-12zM24 72h12v12h-12zM48 72h36v12h-36zM96 72h12v12h-12zM120 72h24v12h-24zM204 72h12v12h-12zM228 72h36v12h-36zM288 72h12v12h-12zM312 72h36v12h-36zM360 72h12v12h-12zM24 84h12v12h-12zM96 84h12v12h-12zM132 84h12v12h-12zM156 84h12v12h-12zM180 84h48v12h-48zM240 84h24v12h-24zM288 84h12v12h-12zM360 84h12v12h-12zM24 96h84v12h-84zM120 96h12v12h-12zM144 96h12v12h-12zM168 96h12v12h-12zM192 96h12v12h-12zM216 96h12v12h-12zM240 96h12v12h-12zM264 96h12v12h-12zM288 96h84v12h-84zM132 108h24v12h-24zM180 108h12v12h-12zM204 108h36v12h-36zM252 108h12v12h-12zM24 120h12v12h-12zM48 120h12v12h-12zM72 120h12v12h-12zM96 120h12v12h-12zM132 120h12v12h-12zM168 120h72v12h-72zM252 120h24v12h-24zM312 120h12v12h-12zM348 120h12v12h-12zM24 132h12v12h-12zM48 132h24v12h-24zM84 132h12v12h-12zM108 132h36v12h-36zM156 132h24v12h-24zM264 132h36v12h-36zM324 132h12v12h-12zM360 132h12v12h-12zM36 144h24v12h-24zM72 144h12v12h-12zM96 144h36v12h-36zM144 144h48v12h-48zM240 144h12v12h-12zM264 144h48v12h-48zM336 144h36v12h-36zM24 156h36v12h-36zM108 156h24v12h-24zM144 156h12v12h-12zM168 156h132v12h-132zM348 156h12v12h-12zM24 168h12v12h-12zM48 168h12v12h-12zM96 168h12v12h-12zM132 168h36v12h-36zM192 168h12v12h-12zM216 168h24v12h-24zM276 168h24v12h-24zM324 168h12v12h-12zM348 168h24v12h-24zM24 180h12v12h-12zM60 180h24v12h-24zM108 180h36v12h-36zM156 180h24v12h-24zM216 180h12v12h-12zM264 180h12v12h-12zM288 180h12v12h-12zM324 180h12v12h-12zM360 180h12v12h-12zM72 192h12v12h-12zM96 192h12v12h-12zM120 192h24v12h-24zM156 192h12v12h-12zM180 192h12v12h-12zM216 192h24v12h-24zM276 192h24v12h-24zM324 192h12v12h-12zM348 192h24v12h-24zM84 204h12v12h-12zM108 204h36v12h-36zM204 204h60v12h-60zM312 204h24v12h-24zM348 204h12v12h-12zM24 216h36v12h-36zM96 216h24v12h-24zM144 216h36v12h-36zM228 216h72v12h-72zM324 216h12v12h-12zM348 216h24v12h-24zM48 228h12v12h-12zM72 228h12v12h-12zM108 228h12v12h-12zM144 228h12v12h-12zM168 228h24v12h-24zM216 228h12v12h-12zM264 228h12v12h-12zM288 228h12v12h-12zM324 228h24v12h-24zM360 228h12v12h-12zM24 240h12v12h-12zM48 240h36v12h-36zM96 240h12v12h-12zM132 240h24v12h-24zM168 240h12v12h-12zM192 240h12v12h-12zM228 240h12v12h-12zM300 240h12v12h-12zM348 240h24v12h-24zM36 252h12v12h-12zM60 252h36v12h-36zM144 252h72v12h-72zM228 252h24v12h-24zM264 252h24v12h-24zM312 252h24v12h-24zM348 252h12v12h-12zM24 264h12v12h-12zM60 264h24v12h-24zM96 264h12v12h-12zM120 264h12v12h-12zM144 264h24v12h-24zM192 264h48v12h-48zM264 264h60v12h-60zM120 276h12v12h-12zM144 276h24v12h-24zM192 276h12v12h-12zM216 276h60v12h-60zM312 276h12v12h-12zM336 276h36v12h-36zM24 288h84v12h-84zM132 288h24v12h-24zM180 288h12v12h-12zM228 288h12v12h-12zM252 288h24v12h-24zM288 288h12v12h-12zM312 288h24v12h-24zM348 288h24v12h-24zM24 300h12v12h-12zM96 300h12v12h-12zM228 300h24v12h-24zM264 300h12v12h-12zM312 300h24v12h-24zM360 300h12v12h-12zM24 312h12v12h-12zM48 312h36v12h-36zM96 312h12v12h-12zM120 312h24v12h-24zM156 312h24v12h-24zM228 312h12v12h-12zM264 312h60v12h-60zM348 312h24v12h-24zM24 324h12v12h-12zM48 324h36v12h-36zM96 324h12v12h-12zM132 324h12v12h-12zM216 324h24v12h-24zM252 324h24v12h-24zM300 324h24v12h-24zM336 324h36v12h-36zM24 336h12v12h-12zM48 336h36v12h-36zM96 336h12v12h-12zM120 336h12v12h-12zM144 336h36v12h-36zM192 336h12v12h-12zM216 336h12v12h-12zM252 336h12v12h-12zM276 336h12v12h-12zM300 336h36v12h-36zM360 336h12v12h-12zM24 348h12v12h-12zM96 348h12v12h-12zM132 348h12v12h-12zM156 348h12v12h-12zM192 348h12v12h-12zM228 348h48v12h-48zM300 348h12v12h-12zM348 348h12v12h-12zM24 360h84v12h-84zM120 360h12v12h-12zM156 360h12v12h-12zM180 360h24v12h-24zM216 360h24v12h-24zM264 360h48v12h-48zM348 360h24v12h-24z"/></svg>
+        <p class="big">Scan to follow along</p>
+        <span class="inline-copy"><span class="url" data-copy>https://longfuxu.github.io/website-kit/</span><button class="copy" type="button">Copy</button></span>
+        <p class="small">Every prompt and setting on this page has a Copy button.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · Why + my path -->
+<section class="slide" id="why" aria-label="Slide 2: Why a site">
+  <div class="inner">
+    <div class="head">
+      <p class="eyebrow">Why bother</p>
+      <h2>Why a site, and how I built mine</h2>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>Why have your own site</h3>
+        <ul>
+          <li><b>People search your name.</b> Committees, collaborators and students look you up. Your site is the result you write.</li>
+          <li><b>It outlives your job.</b> A university page ends with the appointment; yourname.com stays yours.</li>
+          <li><b>Your story, your words.</b> Databases list your papers. Only your site says why they matter.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>How I built mine</h3>
+        <ol class="timeline">
+          <li><span class="when">2021</span><span>Bought <a href="https://www.longfuxu.com" target="_blank" rel="noopener">longfuxu.com</a> at Namecheap.</span></li>
+          <li><span class="when">2025 · v1</span><span>Forked <b>al-folio</b>, a free academic template, and hosted it free on <b>GitHub Pages</b>.</span></li>
+          <li><span class="when">2025 · v2</span><span>Wrote a one-page brief. An AI agent rebuilt the site, and it is hosted free on <b>Vercel</b>.</span></li>
+        </ol>
+      </div>
+    </div>
+    <div class="note critical"><span class="lab">Honest note</span><p>I am not an HTML coder. My part was to pick a template, hand over my CV and materials, and decide the style and structure. The AI did the building. The hard part was deciding what I wanted and getting it online: v2 took about a dozen deploy attempts, so today we take the simplest path.</p></div>
+  </div>
+</section>
+
+<!-- 3 · The plan -->
+<section class="slide" id="plan" aria-label="Slide 3: The plan">
+  <div class="inner">
+    <div class="head">
+      <p class="eyebrow">The plan</p>
+      <h2>Five steps. Steps 1–4 take about 15 minutes.</h2>
+    </div>
+    <div class="grid5">
+      <a class="card stepcard" href="#step-1"><span class="n">Step 1 · 2 min</span><h3>Pick a look</h3><span class="muted small">A template or a site you admire</span></a>
+      <a class="card stepcard" href="#step-2"><span class="n">Step 2 · 3 min</span><h3>Decide the content</h3><span class="muted small">Your CV in three reading depths</span></a>
+      <a class="card stepcard" href="#step-3"><span class="n">Step 3 · 3 min</span><h3>Generate it with AI</h3><span class="muted small">One prompt, then small edits</span></a>
+      <a class="card stepcard" href="#step-4"><span class="n">Step 4 · 3 min</span><h3>Deploy it free</h3><span class="muted small">GitHub Pages or Vercel</span></a>
+      <a class="card stepcard" href="#step-5"><span class="n">Step 5 · later</span><h3>Your own domain</h3><span class="muted small">≈ $11 a year</span></a>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h3>What you need</h3>
+        <ul>
+          <li>A laptop with a browser</li>
+          <li>Your CV as a PDF (a public version: no grant numbers or unpublished work)</li>
+          <li>A headshot saved as <code>photo.jpg</code></li>
+          <li>A free <a href="https://github.com/signup" target="_blank" rel="noopener">GitHub account</a>. Your username becomes your web address, so pick a professional one.</li>
+          <li>Any AI chat: Claude, ChatGPT or Gemini. The free tier is enough.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>You are the PI. The AI is your postdoc.</h3>
+        <ul>
+          <li><b>You</b> set the direction (sites you admire), supply the materials (CV, photo, links) and check every line.</li>
+          <li><b>The AI</b> writes the HTML and CSS, fixes the layout on phones and walks you through publishing.</li>
+          <li>The skill you need is writing a clear brief. You already do that for your students.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · Step 1 templates -->
+<section class="slide" id="step-1" aria-label="Slide 4: Step 1, pick a look">
+  <div class="inner">
+    <div class="head">
+      <p class="eyebrow">Step 1 · 2 min</p>
+      <h2>Find a template or a site you like</h2>
+    </div>
+    <div class="grid3">
+      <a class="card" href="https://academicpages.github.io/" target="_blank" rel="noopener"><span class="tag">Classic</span><h3>Academic Pages</h3><span class="muted">Fork it on GitHub and edit simple text files. Sidebar with photo; pages for publications, talks and teaching.</span><span class="url">academicpages.github.io</span></a>
+      <a class="card" href="https://alshedivat.github.io/al-folio/" target="_blank" rel="noopener"><span class="tag">Clean · my v1</span><h3>al-folio</h3><span class="muted">Minimal and polished. Publications come from a BibTeX file; news, projects and blog built in. About 15k GitHub stars.</span><span class="url">alshedivat.github.io/al-folio</span></a>
+      <a class="card" href="https://github.com/topics/academic-website" target="_blank" rel="noopener"><span class="tag">The collection</span><h3>GitHub topic: academic-website</h3><span class="muted">Every repository tagged as an academic website, 800+ of them. Sort by stars to see the most-used templates.</span><span class="url">github.com/topics/academic-website</span></a>
+      <a class="card" href="https://hugoblox.com/templates/" target="_blank" rel="noopener"><span class="tag">More layouts</span><h3>Hugo Blox</h3><span class="muted">Academic CV and research-group templates in many styles.</span><span class="url">hugoblox.com/templates</span></a>
+      <a class="card" href="https://astro.build/themes/" target="_blank" rel="noopener"><span class="tag">Modern</span><h3>Astro themes</h3><span class="muted">Portfolio designs if you want something less traditional.</span><span class="url">astro.build/themes</span></a>
+      <div class="card"><span class="tag">Best source</span><h3>People one step ahead</h3><span class="muted">Sites of recent faculty hires in your field are tuned for the job you want. Take a screenshot of the one you like; you will give it to the AI.</span></div>
+    </div>
+    <div class="note critical"><span class="lab">Critical</span><p>Borrow layout, spacing and mood. Never copy someone else’s text, photos or logos.</p></div>
+  </div>
+</section>
+
+<!-- 5 · Step 2 content -->
+<section class="slide" id="step-2" aria-label="Slide 5: Step 2, content">
+  <div class="inner">
+    <div class="head">
+      <p class="eyebrow">Step 2 · 3 min · What goes on the site</p>
+      <h2>Organise your CV into three reading depths</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Depth</th><th>Who</th><th>What they must find</th></tr></thead>
+        <tbody>
+          <tr><td class="num">10 seconds</td><td>Everyone</td><td>Name, position, institution, photo, one sentence on what you study, email and links (Google Scholar, ORCID, GitHub).</td></tr>
+          <tr><td class="num">1 minute</td><td>Committees, collaborators</td><td>2–4 research themes, selected papers with your name in bold, dated news.</td></tr>
+          <tr><td class="num">10 minutes</td><td>People evaluating you</td><td>Full publication list, CV, talks, teaching and mentoring, code and data.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid2">
+      <div class="note critical"><span class="lab">Leave off</span><p>Unpublished data · grant numbers and dollar amounts · home address and personal phone · anything you would not show in a job talk.</p></div>
+      <div class="note"><span class="lab">Rule of thumb</span><p>Fewer than about 15 papers and no blog: one page with sections is enough.</p></div>
+    </div>
+    <div class="copyblock short">
+      <div class="copybar"><span>Prompt · the hardest sentence on your site</span><button class="copy" type="button">Copy</button></div>
+      <pre data-copy>From my attached CV, write five versions of a one-sentence summary of my research for a smart undergraduate outside my field. Under 25 words each, no jargon, no hype words.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · Step 3 generate -->
+<section class="slide" id="step-3" aria-label="Slide 6: Step 3, generate with AI">
+  <div class="inner">
+    <div class="head">
+      <p class="eyebrow">Step 3 · 3 min</p>
+      <h2>Generate the site with one prompt</h2>
+    </div>
+    <div class="grid2">
+      <div style="display:flex;flex-direction:column;gap:1rem;min-width:0">
+        <ol>
+          <li>Open a new chat in Claude, ChatGPT or Gemini.</li>
+          <li>Attach your CV PDF and your screenshot. If it will not take the PDF, paste the CV text after the prompt.</li>
+          <li>Copy the prompt, replace the <span class="fill">[highlighted]</span> parts, send.</li>
+          <li>Look at the preview (Claude shows it beside the chat; ChatGPT and Gemini have Canvas). About one minute.</li>
+        </ol>
+        <h3>Then change one thing at a time</h3>
+        <ul class="prompts">
+          <li><span data-copy>Make it calmer: fewer colours, more white space, no boxes or shadows.</span><button class="copy" type="button">Copy</button></li>
+          <li><span data-copy>Show me three colour schemes as small swatches, then apply the one I pick.</span><button class="copy" type="button">Copy</button></li>
+          <li><span data-copy>Move Publications above Research and cut the bio to two sentences.</span><button class="copy" type="button">Copy</button></li>
+          <li><span data-copy>Give me the complete updated index.html in one code block.</span><button class="copy" type="button">Copy</button></li>
+        </ul>
+        <p class="small muted">Tested 7 Nov 2026 on a fictional CV with a planted grant number, dollar amount, home address, phone and unpublished work: a complete page in under a minute from both a fast and a pro model, nothing private leaked, missing facts marked [TODO]. You still read every line.</p>
+      </div>
+      <div class="copyblock">
+        <div class="copybar"><span>Master prompt · paste into any AI chat</span><button class="copy" type="button">Copy</button></div>
+        <pre data-copy>You are a web designer who builds clean, fast personal websites for scientists.
+
+TASK
+Build my personal academic website as ONE self-contained file called index.html:
+- All CSS inside a &lt;style&gt; tag. No frameworks and no build step; at most a few lines of plain JavaScript.
+- Google Fonts are fine. The only other files are my photo (photo.jpg) and my CV (cv.pdf), which I will upload next to index.html.
+- It must look good on a phone and on a laptop.
+
+MY MATERIALS
+- My CV is attached (or pasted at the end of this message).
+- The look I want: <span class="fill">[paste 1-3 links or attach screenshots of websites you like]</span>. Borrow their layout, spacing and mood, but never their text or images.
+- Style in three words: <span class="fill">[e.g. calm, minimal, warm]</span>. Accent colour: <span class="fill">[e.g. Berkeley blue #003262]</span>.
+- Links: email <span class="fill">[ ]</span>, Google Scholar <span class="fill">[ ]</span>, ORCID <span class="fill">[ ]</span>, GitHub <span class="fill">[ ]</span>, LinkedIn / Bluesky / X <span class="fill">[ ]</span>, lab page <span class="fill">[ ]</span>.
+
+CONTENT
+Use ONLY facts from my CV. Never invent a paper, award, date or number. If something is missing, write [TODO: ...] on the page so I can see it.
+1. Top of the page: my name, current position and institution, and one sentence on what I study, in plain English.
+2. About: 3-4 sentences that a smart non-specialist can follow.
+3. Research: 2-4 themes, each with a short title and 2 sentences.
+4. Selected publications: 5-8 entries (authors with my name in bold, title, journal, year, DOI link), then a link to my full list on Google Scholar.
+5. News: 3-5 recent dated items.
+6. Awards and fellowships: names and years only, with no dollar amounts or grant numbers.
+7. Contact: my email and links, plus a "CV (PDF)" link to cv.pdf.
+Leave out: unpublished results, grant numbers and amounts, my home address and personal phone.
+
+QUALITY
+- A top menu that stays visible and links to each section.
+- Easy to read: body text 17-18px, lines no longer than about 75 characters, strong contrast.
+- Accessible: semantic HTML, alt text on the photo, visible keyboard focus.
+- Fill in &lt;title&gt;, the meta description and Open Graph tags with my name and research summary.
+- If photo.jpg is missing, hide the image and keep the layout intact.
+
+OUTPUT
+1. The complete index.html in ONE code block. Do not shorten it or write "rest of the code here".
+2. After the code, a short list of every [TODO] I still need to fill in.</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · Step 4 deploy -->
+<section class="slide" id="step-4" aria-label="Slide 7: Step 4, deploy free">
+  <div class="inner">
+    <div class="head">
+      <p class="eyebrow">Step 4 · 3 min · Free hosting</p>
+      <h2>Put it online for free: GitHub Pages or Vercel</h2>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <span class="tag">Simplest · address: yourusername.github.io</span>
+        <h3>GitHub Pages</h3>
+        <ol>
+          <li>On <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a>, name the repository <span class="inline-copy"><code data-copy>yourusername.github.io</code><button class="copy" type="button">Copy</button></span> (with your real username), choose <b>Public</b>, <b>Create repository</b>.</li>
+          <li>Click <b>creating a new file</b>, name it <span class="inline-copy"><code data-copy>index.html</code><button class="copy" type="button">Copy</button></span>, paste the AI’s code, <b>Commit changes</b>.</li>
+          <li><b>Add file → Upload files</b> → <code>photo.jpg</code> → <b>Commit changes</b>.</li>
+          <li>After about a minute, open <code>https://yourusername.github.io</code>.</li>
+        </ol>
+        <p class="small muted">Any other repository name works too: then go to <b>Settings → Pages → Deploy from a branch → main → / (root) → Save</b>; the address becomes <code>yourusername.github.io/repositoryname</code>.</p>
+      </div>
+      <div class="card">
+        <span class="tag">What I use · address: name.vercel.app</span>
+        <h3>Vercel</h3>
+        <p><b>Fastest, by drag and drop</b></p>
+        <ol>
+          <li>Save the AI’s code as <code>index.html</code> in a new folder, together with <code>photo.jpg</code>.</li>
+          <li>Open <a href="https://vercel.com/drop" target="_blank" rel="noopener">vercel.com/drop</a> and drag the folder in. You get a live link in seconds.</li>
+          <li>Sign in with GitHub (free Hobby plan) to keep it. An unclaimed drop expires.</li>
+        </ol>
+        <p><b>Auto-updating, from GitHub</b></p>
+        <ol>
+          <li>Do GitHub steps 1–3 (any repository name).</li>
+          <li>On <a href="https://vercel.com/new" target="_blank" rel="noopener">vercel.com/new</a>, <b>Import</b> that repository → <b>Deploy</b>.</li>
+          <li>From then on, every commit on GitHub updates the site.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="note pause"><span class="lab">Pause point</span><p>Your site is live. The domain can wait for another day.</p></div>
+      <div class="note"><span class="lab">Saving the file on a Mac</span><p>Use the chat’s Download button, or in TextEdit choose <b>Format → Make Plain Text</b> before saving as <code>index.html</code>.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · Step 5 domain -->
+<section class="slide" id="step-5" aria-label="Slide 8: Step 5, your own domain">
+  <div class="inner">
+    <div class="head">
+      <p class="eyebrow">Step 5 · later · Domain names</p>
+      <h2>Your own domain: about $11 a year</h2>
+    </div>
+    <div class="grid2">
+      <div style="display:flex;flex-direction:column;gap:0.8rem;min-width:0">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Registrar</th><th>.com renewal / yr</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td><a href="https://www.cloudflare.com/products/registrar/" target="_blank" rel="noopener">Cloudflare</a></td><td class="num">≈ $10.46</td><td>At cost; Cloudflare runs your DNS</td></tr>
+              <tr><td><a href="https://porkbun.com/" target="_blank" rel="noopener">Porkbun</a></td><td class="num">≈ $11.08</td><td>Simple, free privacy</td></tr>
+              <tr><td><a href="https://www.namecheap.com/" target="_blank" rel="noopener">Namecheap</a></td><td class="num">≈ $14–19</td><td>Cheap first year; mine is here</td></tr>
+              <tr><td>GoDaddy</td><td class="num">≈ $23</td><td>Expect upsells</td></tr>
+              <tr><td>Wix, Squarespace</td><td class="num">bundled</td><td>Free year 1 with an annual plan</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="small">
+          <li>Buy <code>firstnamelastname.com</code> now, even if the site comes later. Leave out your institution: you will move.</li>
+          <li>Compare the <b>renewal</b> price, not the first-year promotion. Turn on auto-renew.</li>
+          <li>Privacy protection and HTTPS should cost $0. Do not pay for them.</li>
+        </ul>
+        <p class="small muted">Renewal prices incl. ICANN fee, <a href="https://porkbun.com/about/domain-cost-calculator/com" target="_blank" rel="noopener">Porkbun domain cost calculator</a>, checked 13 Oct 2026. Confirm at checkout.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.8rem;min-width:0">
+        <h3>Connect it to GitHub Pages</h3>
+        <p class="small">Repository <b>Settings → Pages → Custom domain</b> → <code>yourname.com</code> → Save. Then add these records at your registrar:</p>
+        <div class="table-wrap">
+          <table class="dns">
+            <thead><tr><th>Type</th><th>Host</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td>A</td><td>@</td><td><code data-copy>185.199.108.153</code><button class="copy" type="button">Copy</button></td></tr>
+              <tr><td>A</td><td>@</td><td><code data-copy>185.199.109.153</code><button class="copy" type="button">Copy</button></td></tr>
+              <tr><td>A</td><td>@</td><td><code data-copy>185.199.110.153</code><button class="copy" type="button">Copy</button></td></tr>
+              <tr><td>A</td><td>@</td><td><code data-copy>185.199.111.153</code><button class="copy" type="button">Copy</button></td></tr>
+              <tr><td>CNAME</td><td>www</td><td><code data-copy>yourusername.github.io</code><button class="copy" type="button">Copy</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small">Wait minutes to hours, then tick <b>Enforce HTTPS</b>. Values from <a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site" target="_blank" rel="noopener">GitHub’s guide</a>.</p>
+        <h3>Connect it to Vercel</h3>
+        <p class="small">Project <b>Settings → Domains → Add</b> → <code>yourname.com</code>, then copy the records Vercel shows into your registrar. Or point the domain’s nameservers to Vercel, which is my setup (Namecheap → Vercel).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 · Platforms + agent skill -->
+<section class="slide" id="platforms" aria-label="Slide 9: Platforms compared">
+  <div class="inner">
+    <div class="head">
+      <p class="eyebrow">Choosing a platform</p>
+      <h2>Three routes, none of them needs code</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>Website builder (Wix)</th><th class="hl">AI chat + free hosting (today)</th><th>AI agent + template (my site)</th></tr></thead>
+        <tbody>
+          <tr><td><b>Coding</b></td><td>None</td><td>None: copy and paste</td><td>None: you describe changes</td></tr>
+          <tr><td><b>Cost per year</b></td><td>≈ $204 (Light plan, billed annually)</td><td>$0</td><td>$0, plus an AI plan (≈ $20/month) while you build</td></tr>
+          <tr><td><b>First version</b></td><td>Visual drag and drop</td><td>≈ 15 minutes</td><td>≈ 1 hour</td></tr>
+          <tr><td><b>Updates</b></td><td>Click and edit</td><td>Paste a new version</td><td>“Add this paper: DOI”</td></tr>
+          <tr><td><b>Leaving later</b></td><td>Hard: the site stays on Wix</td><td>Easy: it is one file</td><td>Easy: it is your repository</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">Wix Light at $17/month billed annually, from 2026 plan listings; check wix.com. Times are typical, not guaranteed.</p>
+    <details>
+      <summary>Level up: the academic-website skill for AI agents (Claude Code, Codex, Claude app)</summary>
+      <div class="body">
+        <p>A chat gives you one file. An agent works in a folder: it starts from a full template, builds several pages, deploys, connects your domain, and later updates the site when you say “add this paper”. This skill makes it interview you first, never invent facts and never buy anything for you.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tool</th><th>Where the skill goes</th></tr></thead>
+            <tbody>
+              <tr><td>Claude Code</td><td><span class="inline-copy"><code data-copy>~/.claude/skills/academic-website/SKILL.md</code><button class="copy" type="button">Copy</button></span></td></tr>
+              <tr><td>OpenAI Codex</td><td><span class="inline-copy"><code data-copy>~/.codex/skills/academic-website/SKILL.md</code><button class="copy" type="button">Copy</button></span></td></tr>
+              <tr><td>Claude app (paid plans)</td><td>Zip the <code>academic-website</code> folder and upload it in Settings, under Skills</td></tr>
+              <tr><td>Anything else</td><td>Paste it as your first message, or save it as <code>AGENTS.md</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Then, in a folder with your CV and photo: <span class="inline-copy"><code data-copy>Use the academic-website skill to build my site from cv.pdf.</code><button class="copy" type="button">Copy</button></span></p>
+        <div class="copyblock">
+          <div class="copybar"><span>academic-website/SKILL.md</span><button class="copy" type="button">Copy</button></div>
+          <pre data-copy>---
+name: academic-website
+description: Build, publish and maintain a personal academic website from a CV — interview, content plan, template choice, build, free GitHub Pages hosting and an optional custom domain. Use when someone asks to make, redesign or update their academic or lab website.
+---
+
+# Academic website — from CV to live URL
+
+You are helping a researcher who probably does not code. They are the PI: they decide what the
+site says and how it looks. You do the building and explain each step in plain words. Aim for a
+live URL in the first session, then improve it.
+
+## Ground rules (never break these)
+
+- **Facts come only from their materials.** Never invent a paper, award, date, number, quote or
+  affiliation. Anything missing becomes a visible `[TODO: …]` and goes on a list for them.
+- **Privacy filter before publishing:** no unpublished results, grant numbers or dollar amounts,
+  home address, personal phone, or reviewer/confidential material. If the CV PDF contains any of
+  these, do not publish the PDF — link "CV available on request" or make a public version.
+- **Reference sites are for layout and mood only.** Never copy their text, images or logos.
+- **Never buy, sign up or pay on their behalf.** Domains, plans and accounts are their clicks.
+- **Never commit secrets** (API keys, tokens, `.env`).
+- **Keep template licenses.** If you start from a template, keep its LICENSE file and any
+  attribution it asks for.
+- Prefer the simplest setup that meets their needs. A site they can update beats a fancy one
+  they are afraid to touch.
+
+## 1. Intake — ask once, in one message
+
+Ask for whatever they have not already given you:
+
+1. CV (PDF or text) and a headshot (square-ish, at least 600 px).
+2. Links: email, Google Scholar, ORCID, GitHub, LinkedIn / Bluesky / X, lab page.
+3. Two or three websites whose look they like (URLs or screenshots). Suggest looking at people
+   who recently got the job they want.
+4. Goal and audience: faculty job market, industry, lab recruiting, visibility?
+5. How often they will update it, and whether they want a blog or news section.
+6. GitHub username (or whether they need to create an account), and whether they own or want a
+   custom domain.
+
+Do not wait for everything: if they say "just start", proceed with [TODO]s.
+
+## 2. Content plan — get approval before building
+
+Draft and show:
+
+- **Site map.** Rule of thumb: fewer than ~15 papers and no blog → one page with sections.
+  Otherwise Home · Research · Publications · CV · (News / Blog / Teaching).
+- **Above the fold:** name, position and institution, a one-sentence research summary a
+  non-specialist understands, photo, email and profile links.
+- **Home page copy:** a 3–4 sentence bio; 2–4 research themes (title + 2 sentences each);
+  5–8 selected publications (their name in bold, DOI links); 3–5 dated news items.
+- Organise for three reading depths: **10 seconds** (who you are, what you study),
+  **1 minute** (research themes, selected papers), **10 minutes** (full list, CV, news, blog).
+- Offer 3–5 alternatives for the one-sentence summary; they choose.
+
+Wait for "looks good" (or edits) before building.
+
+## 3. Choose the stack — recommend one, explain in two lines
+
+| Option | When it fits | Hosting |
+|---|---|---|
+| **A. Single static page** (`index.html` + photo + CV) — default | Most postdocs; fewer than ~15 papers; no blog | GitHub Pages, no build step |
+| **B. Academic Pages** (Jekyll; fork `academicpages/academicpages.github.io`) | Want separate pages for publications, talks and teaching as simple Markdown files | GitHub Pages builds it |
+| **C. al-folio** (Jekyll; `alshedivat/al-folio`) | Many papers kept in a BibTeX file; news and projects pages | GitHub Pages via the repo's GitHub Actions workflow |
+| **D. Custom Astro / Next.js** | Heavy blog or custom design, and willing to use Vercel / Netlify | Vercel or Netlify (auto-detects the framework) |
+
+Default to A unless their answers clearly need B–D. Deployment is where beginners get stuck, so
+pick the path with the fewest moving parts.
+
+## 4. Build
+
+Quality bar for any option:
+
+- Responsive: check at 390 px (phone) and 1280 px (laptop) widths.
+- Readable: body 17–18 px, line length ≤ ~75 characters, contrast ≥ 4.5:1.
+- Accessible: semantic HTML (`header`, `nav`, `main`, `section`, `footer`), alt text, visible
+  focus, no information carried by colour alone.
+- Findable: `&lt;title&gt;` = "Name — Position, Institution", meta description = the one-sentence
+  summary, Open Graph tags, a favicon.
+- Fast and private: no heavy JS frameworks for option A, no trackers unless they ask.
+- Publications: their name in bold, DOI links, newest first.
+- For option A add an empty `.nojekyll` file so GitHub serves the files exactly as written.
+
+## 5. Preview and check
+
+- Local preview: `python3 -m http.server 8000`, then open http://localhost:8000.
+- Click every link. Check the photo and CV paths. Resize to phone width.
+- Show the result (screenshot if you can), then iterate on their feedback — one change list at a
+  time.
+
+## 6. Publish free on GitHub Pages
+
+**User site** — the URL becomes `https://&lt;username&gt;.github.io` (best if the username is
+professional):
+
+```bash
+git init &amp;&amp; git add . &amp;&amp; git commit -m "First version of my website"
+gh repo create &lt;username&gt;.github.io --public --source . --push
+```
+
+**Project site** — for an existing account; the URL becomes `https://&lt;username&gt;.github.io/&lt;repo&gt;/`:
+
+```bash
+gh repo create &lt;repo&gt; --public --source . --push
+gh api -X POST repos/&lt;username&gt;/&lt;repo&gt;/pages -f "source[branch]=main" -f "source[path]=/"
+```
+
+No `gh` CLI? Walk them through the web: **github.com → New repository** → name it
+`&lt;username&gt;.github.io`, Public → **Add file → Upload files** (index.html, photo.jpg, cv.pdf) →
+Commit. For a project repo also turn on **Settings → Pages → Deploy from a branch → main / root**.
+
+Verify: `curl -sI https://&lt;username&gt;.github.io | head -1` should return `200` (allow 1–10 minutes
+for the first deploy).
+
+**Vercel instead** (free Hobby plan; the URL becomes `https://&lt;project&gt;.vercel.app`):
+
+- From GitHub: push the repository as above, then **vercel.com/new → Import** the repository →
+  **Deploy**. Every later commit redeploys automatically.
+- Without GitHub: drag the site folder onto **vercel.com/drop**, then sign in to claim the project
+  before the temporary deployment expires.
+- With the CLI: `npx vercel --prod` in the site folder (it asks them to log in once).
+
+Options C/D: use the template's documented deploy (al-folio's GitHub Actions workflow; Vercel or
+Netlify "import from GitHub" for D). Confirm the live URL before moving on.
+
+## 7. Custom domain (optional, about $11 a year)
+
+Advise; they buy it themselves.
+
+- Choose `firstnamelastname.com` if free; otherwise a `.org` or `firstname-lastname.com`.
+  Avoid institution names, because they will move.
+- Compare the **renewal** price, not the first-year promotion. October 2026 `.com` renewals:
+  Cloudflare Registrar ≈ $10.46 (at cost), Porkbun ≈ $11.08, Namecheap ≈ $14–19, GoDaddy ≈ $23.
+  WHOIS privacy should be free, and HTTPS certificates are free on GitHub Pages, so do not buy
+  either. Turn on auto-renew.
+
+Connect the domain to GitHub Pages:
+
+1. Repository **Settings → Pages → Custom domain** → enter `yourname.com` → Save (this writes a
+   `CNAME` file).
+2. At the registrar's DNS page add:
+
+   | Type | Host | Value |
+   |---|---|---|
+   | A | @ | 185.199.108.153 |
+   | A | @ | 185.199.109.153 |
+   | A | @ | 185.199.110.153 |
+   | A | @ | 185.199.111.153 |
+   | CNAME | www | `&lt;username&gt;.github.io` |
+
+   Optional IPv6 (AAAA, host @): `2606:50c0:8000::153`, `2606:50c0:8001::153`,
+   `2606:50c0:8002::153`, `2606:50c0:8003::153`.
+3. Check: `dig +short yourname.com` returns the four 185.199.x.153 addresses, and
+   `dig +short www.yourname.com` returns `&lt;username&gt;.github.io`. DNS can take minutes to hours.
+4. When GitHub shows the certificate is ready, tick **Enforce HTTPS**.
+5. Recommend verifying the domain under the GitHub account's **Settings → Pages** to prevent
+   takeover.
+
+On Vercel or Netlify, add the domain in the project's Domains settings and copy the exact
+records it shows.
+
+## 8. Hand over
+
+Write `UPDATING.md` in the repository:
+
+- Where each section lives and how to add a paper, news item or talk.
+- How to publish a change (edit → commit → live in about a minute) or what to tell the AI
+  ("add this paper: &lt;DOI&gt;").
+- A monthly five-minute routine: one news line, any new paper, check that links still work.
+  Stale news is worse than no news section.
+- Optional: add the site to Google Search Console so it gets indexed under their name.
+
+End by giving them the live URL, the list of remaining [TODO]s, and the one next step.</pre>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- 10 · Takeaways -->
+<section class="slide" id="end" aria-label="Slide 10: Takeaways">
+  <div class="inner">
+    <div class="head">
+      <p class="eyebrow">To take home</p>
+      <h2>Four things to remember</h2>
+    </div>
+    <div class="cover" style="min-height:0;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:1rem;min-width:0">
+        <div class="grid2">
+          <div class="card"><h3>Buy yourname.com now</h3><p class="muted">About $11 a year, and it stays yours for your whole career.</p></div>
+          <div class="card"><h3>Free hosting is enough</h3><p class="muted">GitHub Pages and Vercel serve an academic site for $0.</p></div>
+          <div class="card"><h3>You do not need to code</h3><p class="muted">You need a clear brief and good materials.</p></div>
+          <div class="card"><h3>Update it monthly</h3><p class="muted">One news line, any new paper. Old news looks worse than none. Add the site to <a href="https://search.google.com/search-console" target="_blank" rel="noopener">Google Search Console</a> so a search for your name finds it.</p></div>
+        </div>
+        <details>
+          <summary>Troubleshooting</summary>
+          <div class="body">
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Problem</th><th>Fix</th></tr></thead>
+                <tbody>
+                  <tr><td>The AI’s reply stops halfway</td><td>Say “continue”, or “give me the complete index.html again in one code block”.</td></tr>
+                  <tr><td>404 at yourusername.github.io</td><td>Wait 2–5 minutes. Check the repository name matches your username, the file is <code>index.html</code> (lowercase) at the top level, and Settings → Pages shows a deployment.</td></tr>
+                  <tr><td>The page shows code or odd symbols</td><td>The file was saved as rich text. Paste the code straight into GitHub’s editor instead.</td></tr>
+                  <tr><td>The photo does not show</td><td>Names are case-sensitive: <code>photo.jpg</code> is not <code>Photo.JPG</code>.</td></tr>
+                  <tr><td>The AI added a paper or award I do not have</td><td>Delete it and remind it: “Use only facts from my CV.”</td></tr>
+                  <tr><td>No GitHub account yet</td><td>Use vercel.com/drop, or <a href="https://app.netlify.com/drop" target="_blank" rel="noopener">Netlify Drop</a>; claim the site with a free account before it expires.</td></tr>
+                  <tr><td>Custom domain not working yet</td><td>DNS can take hours. Check the four A records and the www CNAME, remove parking records, then enable HTTPS.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+        <footer class="end">
+          <p>Longfu Xu · Bustamante Lab, UC Berkeley · <span>longfuxu@berkeley.edu</span> · <a href="https://www.longfuxu.com" target="_blank" rel="noopener">longfuxu.com</a></p>
+          <p>Prices and service details checked October–November 2026. Confirm them before you buy anything.</p>
+        </footer>
+      </div>
+      <div class="qrcard">
+        <svg role="img" aria-label="QR code linking to the workshop protocol page" width="396" height="396" viewBox="0 0 396 396" xmlns="http://www.w3.org/2000/svg"><rect width="396" height="396" fill="#FFFFFF"/><path fill="#1B2027" d="M24 24h84v12h-84zM156 24h12v12h-12zM180 24h36v12h-36zM240 24h24v12h-24zM288 24h84v12h-84zM24 36h12v12h-12zM96 36h12v12h-12zM120 36h36v12h-36zM180 36h12v12h-12zM204 36h24v12h-24zM252 36h24v12h-24zM288 36h12v12h-12zM360 36h12v12h-12zM24 48h12v12h-12zM48 48h36v12h-36zM96 48h12v12h-12zM144 48h36v12h-36zM204 48h24v12h-24zM240 48h12v12h-12zM288 48h12v12h-12zM312 48h36v12h-36zM360 48h12v12h-12zM24 60h12v12h-12zM48 60h36v12h-36zM96 60h12v12h-12zM144 60h12v12h-12zM192 60h12v12h-12zM252 60h24v12h-24zM288 60h12v12h-12zM312 60h36v12h-36zM360 60h12v12h-12zM24 72h12v12h-12zM48 72h36v12h-36zM96 72h12v12h-12zM120 72h24v12h-24zM204 72h12v12h-12zM228 72h36v12h-36zM288 72h12v12h-12zM312 72h36v12h-36zM360 72h12v12h-12zM24 84h12v12h-12zM96 84h12v12h-12zM132 84h12v12h-12zM156 84h12v12h-12zM180 84h48v12h-48zM240 84h24v12h-24zM288 84h12v12h-12zM360 84h12v12h-12zM24 96h84v12h-84zM120 96h12v12h-12zM144 96h12v12h-12zM168 96h12v12h-12zM192 96h12v12h-12zM216 96h12v12h-12zM240 96h12v12h-12zM264 96h12v12h-12zM288 96h84v12h-84zM132 108h24v12h-24zM180 108h12v12h-12zM204 108h36v12h-36zM252 108h12v12h-12zM24 120h12v12h-12zM48 120h12v12h-12zM72 120h12v12h-12zM96 120h12v12h-12zM132 120h12v12h-12zM168 120h72v12h-72zM252 120h24v12h-24zM312 120h12v12h-12zM348 120h12v12h-12zM24 132h12v12h-12zM48 132h24v12h-24zM84 132h12v12h-12zM108 132h36v12h-36zM156 132h24v12h-24zM264 132h36v12h-36zM324 132h12v12h-12zM360 132h12v12h-12zM36 144h24v12h-24zM72 144h12v12h-12zM96 144h36v12h-36zM144 144h48v12h-48zM240 144h12v12h-12zM264 144h48v12h-48zM336 144h36v12h-36zM24 156h36v12h-36zM108 156h24v12h-24zM144 156h12v12h-12zM168 156h132v12h-132zM348 156h12v12h-12zM24 168h12v12h-12zM48 168h12v12h-12zM96 168h12v12h-12zM132 168h36v12h-36zM192 168h12v12h-12zM216 168h24v12h-24zM276 168h24v12h-24zM324 168h12v12h-12zM348 168h24v12h-24zM24 180h12v12h-12zM60 180h24v12h-24zM108 180h36v12h-36zM156 180h24v12h-24zM216 180h12v12h-12zM264 180h12v12h-12zM288 180h12v12h-12zM324 180h12v12h-12zM360 180h12v12h-12zM72 192h12v12h-12zM96 192h12v12h-12zM120 192h24v12h-24zM156 192h12v12h-12zM180 192h12v12h-12zM216 192h24v12h-24zM276 192h24v12h-24zM324 192h12v12h-12zM348 192h24v12h-24zM84 204h12v12h-12zM108 204h36v12h-36zM204 204h60v12h-60zM312 204h24v12h-24zM348 204h12v12h-12zM24 216h36v12h-36zM96 216h24v12h-24zM144 216h36v12h-36zM228 216h72v12h-72zM324 216h12v12h-12zM348 216h24v12h-24zM48 228h12v12h-12zM72 228h12v12h-12zM108 228h12v12h-12zM144 228h12v12h-12zM168 228h24v12h-24zM216 228h12v12h-12zM264 228h12v12h-12zM288 228h12v12h-12zM324 228h24v12h-24zM360 228h12v12h-12zM24 240h12v12h-12zM48 240h36v12h-36zM96 240h12v12h-12zM132 240h24v12h-24zM168 240h12v12h-12zM192 240h12v12h-12zM228 240h12v12h-12zM300 240h12v12h-12zM348 240h24v12h-24zM36 252h12v12h-12zM60 252h36v12h-36zM144 252h72v12h-72zM228 252h24v12h-24zM264 252h24v12h-24zM312 252h24v12h-24zM348 252h12v12h-12zM24 264h12v12h-12zM60 264h24v12h-24zM96 264h12v12h-12zM120 264h12v12h-12zM144 264h24v12h-24zM192 264h48v12h-48zM264 264h60v12h-60zM120 276h12v12h-12zM144 276h24v12h-24zM192 276h12v12h-12zM216 276h60v12h-60zM312 276h12v12h-12zM336 276h36v12h-36zM24 288h84v12h-84zM132 288h24v12h-24zM180 288h12v12h-12zM228 288h12v12h-12zM252 288h24v12h-24zM288 288h12v12h-12zM312 288h24v12h-24zM348 288h24v12h-24zM24 300h12v12h-12zM96 300h12v12h-12zM228 300h24v12h-24zM264 300h12v12h-12zM312 300h24v12h-24zM360 300h12v12h-12zM24 312h12v12h-12zM48 312h36v12h-36zM96 312h12v12h-12zM120 312h24v12h-24zM156 312h24v12h-24zM228 312h12v12h-12zM264 312h60v12h-60zM348 312h24v12h-24zM24 324h12v12h-12zM48 324h36v12h-36zM96 324h12v12h-12zM132 324h12v12h-12zM216 324h24v12h-24zM252 324h24v12h-24zM300 324h24v12h-24zM336 324h36v12h-36zM24 336h12v12h-12zM48 336h36v12h-36zM96 336h12v12h-12zM120 336h12v12h-12zM144 336h36v12h-36zM192 336h12v12h-12zM216 336h12v12h-12zM252 336h12v12h-12zM276 336h12v12h-12zM300 336h36v12h-36zM360 336h12v12h-12zM24 348h12v12h-12zM96 348h12v12h-12zM132 348h12v12h-12zM156 348h12v12h-12zM192 348h12v12h-12zM228 348h48v12h-48zM300 348h12v12h-12zM348 348h12v12h-12zM24 360h84v12h-84zM120 360h12v12h-12zM156 360h12v12h-12zM180 360h24v12h-24zM216 360h24v12h-24zM264 360h48v12h-48zM348 360h24v12h-24z"/></svg>
+        <p class="big">This page, any time</p>
+        <span class="inline-copy"><span class="url" data-copy>https://longfuxu.github.io/website-kit/</span><button class="copy" type="button">Copy</button></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="pager" aria-label="Slides">
+  <button type="button" data-go="-1" aria-label="Previous slide">‹</button>
+  <span class="count" aria-live="polite">1 / 10</span>
+  <button type="button" data-go="1" aria-label="Next slide">›</button>
+  <button type="button" class="fs" aria-label="Toggle full screen">Full screen</button>
+</nav>
+
+<script>
+(function () {
+  // Copy buttons
+  function sourceFor(btn) {
+    var holder = btn.closest('.inline-copy, .copyblock, li, td');
+    return holder ? holder.querySelector('[data-copy]') : null;
+  }
+  function selectText(el) {
+    try { var r = document.createRange(); r.selectNodeContents(el); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {}
+  }
+  document.querySelectorAll('button.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = sourceFor(btn);
+      var text = src ? src.innerText.trim() : '';
+      var done = function (label) {
+        btn.textContent = label; btn.setAttribute('data-done', '');
+        setTimeout(function () { btn.textContent = 'Copy'; btn.removeAttribute('data-done'); }, 1800);
+      };
+      try {
+        navigator.clipboard.writeText(text).then(function () { done('Copied'); }, function () { if (src) selectText(src); done('Selected'); });
+      } catch (e) { if (src) selectText(src); done('Selected'); }
+    });
+  });
+
+  // Presenter navigation
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var count = document.querySelector('.pager .count');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function current() {
+    var y = window.innerHeight * 0.35, idx = 0;
+    slides.forEach(function (s, i) { if (s.getBoundingClientRect().top <= y) idx = i; });
+    return idx;
+  }
+  function go(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  }
+  function update() { count.textContent = (current() + 1) + ' / ' + slides.length; }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+  document.querySelectorAll('.pager [data-go]').forEach(function (b) {
+    b.addEventListener('click', function () { go(current() + parseInt(b.getAttribute('data-go'), 10)); });
+  });
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || (e.key === ' ' && !(t && t.tagName === 'BUTTON'))) { e.preventDefault(); go(current() + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current() - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(slides.length - 1); }
+    else if (e.key === 'f' || e.key === 'F') { toggleFs(); }
+  });
+  function toggleFs() {
+    try {
+      if (document.fullscreenElement) { document.exitFullscreen(); }
+      else { var p = document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(function () {}); }
+    } catch (e) {}
+  }
+  var fs = document.querySelector('.pager .fs');
+  if (fs) fs.addEventListener('click', toggleFs);
+})();
+</script>
+</body>
+</html>
