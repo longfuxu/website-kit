@@ -184,7 +184,7 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
     <div class="cover">
       <div class="head" style="gap:1.2rem">
         <p class="eyebrow">QB3-Berkeley Postdoc Seminar · 9 Nov 2026 · 177 Stanley Hall</p>
-        <h1>From nothing to a live academic website in 15 minutes</h1>
+        <h1>From nothing to a live academic website in under 30 minutes</h1>
         <p class="lede">No coding. Free hosting on GitHub Pages or Vercel. About $11 a year if you want your own domain.</p>
         <p class="byline"><b>Longfu Xu, PhD</b> · HHMI–Damon Runyon Fellow · Bustamante Lab, UC Berkeley</p>
       </div>
@@ -232,12 +232,12 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
   <div class="inner">
     <div class="head">
       <p class="eyebrow">The plan</p>
-      <h2>Five steps. Steps 1–4 take about 15–20 minutes.</h2>
+      <h2>Five steps. Steps 1–4 take under 30 minutes.</h2>
     </div>
     <div class="grid5">
       <a class="card stepcard" href="#step-1"><span class="n">Step 1 · 2 min</span><h3>Pick a look</h3><span class="muted small">A template or a site you admire</span></a>
       <a class="card stepcard" href="#step-2"><span class="n">Step 2 · 3 min</span><h3>Decide the content</h3><span class="muted small">Your CV in three reading depths</span></a>
-      <a class="card stepcard" href="#step-3"><span class="n">Step 3 · ≈ 10 min</span><h3>One prompt to an agent</h3><span class="muted small">Template + CV + photo</span></a>
+      <a class="card stepcard" href="#step-3"><span class="n">Step 3 · ≈ 20 min</span><h3>One prompt to an agent</h3><span class="muted small">Template + CV + photo</span></a>
       <a class="card stepcard" href="#step-4"><span class="n">Step 4 · automatic</span><h3>Published free</h3><span class="muted small">GitHub Pages and Vercel</span></a>
       <a class="card stepcard" href="#step-5"><span class="n">Step 5 · later</span><h3>Your own domain</h3><span class="muted small">≈ $11 a year</span></a>
     </div>
@@ -315,7 +315,7 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
 <section class="slide" id="step-3" aria-label="Slide 6: Step 3, fork al-folio and let an agent fill it">
   <div class="inner">
     <div class="head">
-      <p class="eyebrow">Step 3 · 10 min, mostly waiting</p>
+      <p class="eyebrow">Step 3 · ≈ 20 min, mostly waiting</p>
       <h2>Give an AI agent the template, your CV and photo. It does the rest.</h2>
     </div>
     <div class="grid2">
@@ -324,13 +324,13 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
           <li>Once: install an agent (<a href="https://claude.com/claude-code" target="_blank" rel="noopener">Claude Code</a> or Codex) and log in to GitHub and Vercel from the terminal (each opens a link you approve in the browser):<br><span class="inline-copy"><code data-copy>gh auth login</code><button class="copy" type="button">Copy</button></span> <span class="inline-copy"><code data-copy>npm i -g vercel@latest && vercel login</code><button class="copy" type="button">Copy</button></span></li>
           <li>Want <code>name.github.io</code>? <code>name</code> must be your GitHub username, or a free <a href="https://github.com/account/organizations/new?plan=free" target="_blank" rel="noopener">organization</a> you create with that name.</li>
           <li>Put your CV and photo in one folder, open a terminal there and start the agent: <span class="inline-copy"><code data-copy>claude</code><button class="copy" type="button">Copy</button></span></li>
-          <li>Paste the prompt, replace the <span class="fill">[highlighted]</span> parts, press Enter. About ten minutes later you have two live links.</li>
+          <li>Paste the prompt, replace the <span class="fill">[highlighted]</span> parts, press Enter. In our tests the first version was live after 15–20 minutes, most of it waiting for builds.</li>
         </ol>
         <div class="note critical"><span class="lab">Tested today</span><p>The technical notes in the prompt fix the three traps we hit while running this on 9 Nov 2026: al-folio’s Ruby 3.3.5 pin fails on GitHub’s current runners; GitHub Pages must serve the <code>gh-pages</code> branch; and Vercel mistakes the built site for a Python app unless <code>requirements.txt</code> is removed. Read the site before you share the link.</p></div>
         <details>
           <summary>The exact prompt I pasted on stage, and what it built</summary>
           <div class="body">
-            <p class="small">Built live on 9 Nov 2026 in about 15 minutes: <a href="https://xulongfu.github.io/" target="_blank" rel="noopener">xulongfu.github.io</a> and <a href="https://xulongfu.vercel.app/" target="_blank" rel="noopener">xulongfu.vercel.app</a> (online until 11 Nov 2026). <code>xulongfu</code> is a free GitHub organization, because my username’s own address was already in use.</p>
+            <p class="small">Built live on 9 Nov 2026 in about 15 minutes, and rebuilt by a fresh agent from this page alone in about 20: <a href="https://xulongfu.github.io/" target="_blank" rel="noopener">xulongfu.github.io</a> and <a href="https://xulongfu.vercel.app/" target="_blank" rel="noopener">xulongfu.vercel.app</a> (online until 11 Nov 2026). <code>xulongfu</code> is a free GitHub organization, because my username’s own address was already in use.</p>
             <div class="copyblock">
               <div class="copybar"><span>Stage prompt · Longfu’s filled-in version</span><button class="copy" type="button">Copy</button></div>
               <pre data-copy><!--STAGE_PROMPT--></pre>
@@ -449,7 +449,7 @@ vercel deploy --prod --yes</pre>
         <tbody>
           <tr><td><b>Coding</b></td><td>None</td><td>None: copy and paste</td><td>None: you write one prompt</td></tr>
           <tr><td><b>Cost per year</b></td><td>≈ $204 (Light plan, billed annually)</td><td>$0 (free AI tier)</td><td>$0 hosting, plus an AI plan (≈ $20/month) while you build</td></tr>
-          <tr><td><b>First version</b></td><td>Visual drag and drop</td><td>≈ 15 minutes, one page</td><td>≈ 15 minutes, full template</td></tr>
+          <tr><td><b>First version</b></td><td>Visual drag and drop</td><td>≈ 15 minutes, one page</td><td>≈ 20 minutes, full template</td></tr>
           <tr><td><b>Updates</b></td><td>Click and edit</td><td>Paste a new version</td><td>“Add this paper: DOI”</td></tr>
           <tr><td><b>Leaving later</b></td><td>Hard: the site stays on Wix</td><td>Easy: it is one file</td><td>Easy: it is your repository</td></tr>
         </tbody>
