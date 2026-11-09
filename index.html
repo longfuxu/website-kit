@@ -396,7 +396,7 @@ When it is live, my site must be at https://<span class="fill">[xulongfu]</span>
           <li><b>Settings → Pages → Build and deployment → Deploy from a branch</b> → choose <span class="inline-copy"><code data-copy>gh-pages</code><button class="copy" type="button">Copy</button></span> and <b>/ (root)</b> → <b>Save</b>. Change it even if another branch is already selected.</li>
           <li>About a minute later: <code>https://yourusername.github.io</code>.</li>
         </ol>
-        <p class="small muted"><b>Red ✗ at “Setup Ruby”:</b> set <code>ruby-version: "3.3"</code> in <code>.github/workflows/deploy.yml</code>. <b>Red ✗ with “permission denied”:</b> Settings → Actions → General → Workflow permissions → Read and write. <b>Repository not named yourusername.github.io:</b> set <code>baseurl: /repository-name</code> in <code>_config.yml</code>; the site is at <code>yourusername.github.io/repository-name</code>.</p>
+        <p class="small muted"><b>Red ✗ on the very first run (“Initial commit”):</b> normal, ignore it. <b>Red ✗ at “Setup Ruby” after your push:</b> set <code>ruby-version: "3.3"</code> in <code>.github/workflows/deploy.yml</code>. <b>Red ✗ with “permission denied”:</b> Settings → Actions → General → Workflow permissions → Read and write. <b>Repository not named yourusername.github.io:</b> set <code>baseurl: /repository-name</code> in <code>_config.yml</code>; the site is at <code>yourusername.github.io/repository-name</code>.</p>
       </div>
       <div class="card">
         <span class="tag">Address: name.vercel.app · what I use</span>
@@ -728,7 +728,8 @@ End by giving them the live URL, the list of remaining [TODO]s, and the one next
               <table>
                 <thead><tr><th>Problem</th><th>Fix</th></tr></thead>
                 <tbody>
-                  <tr><td>“Deploy site” fails at Setup Ruby</td><td>In <code>.github/workflows/deploy.yml</code> set <code>ruby-version: "3.3"</code> and push again.</td></tr>
+                  <tr><td>A red ✗ on the very first “Deploy site” run</td><td>Normal. That run is the template’s own “Initial commit” and starts before the Ruby fix. The run after your agent’s push should be green.</td></tr>
+                  <tr><td>“Deploy site” fails at Setup Ruby after your push</td><td>In <code>.github/workflows/deploy.yml</code> set <code>ruby-version: "3.3"</code> and push again.</td></tr>
                   <tr><td>“Deploy site” fails with permission denied</td><td>Settings → Actions → General → Workflow permissions → Read and write.</td></tr>
                   <tr><td>404 at yourname.github.io</td><td>Settings → Pages must say <b>gh-pages / (root)</b>. The repository must be named exactly <code>yourname.github.io</code> and owned by the account or organization <code>yourname</code>. Wait a minute and reload.</td></tr>
                   <tr><td>Want a name that is not your username</td><td>Create a free GitHub <a href="https://github.com/account/organizations/new?plan=free" target="_blank" rel="noopener">organization</a> with that name; you manage it from your own account.</td></tr>
