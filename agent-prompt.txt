@@ -1,15 +1,15 @@
-You are working inside my copy of the al-folio academic website template (Jekyll). My CV is at [../CV.pdf] and my headshot at [../photo.jpg]. My GitHub username is [yourusername] and this repository is named [yourusername.github.io].
+Build and publish my academic website. Do every step yourself.
 
-Update the site from my CV, then commit and push to main:
-1. _config.yml: set first_name and last_name (clear the example middle_name), a one-sentence description of my research, and keywords. Set url: https://[yourusername].github.io and leave baseurl empty (baseurl: ) because the repository is named yourusername.github.io. If the repository has any other name, use baseurl: /repository-name instead. Under scholar:, set last_name and first_name to my names so I am shown in bold in the publication list.
-2. _pages/about.md: subtitle = my position and lab; profile.more_info = department and university only; latest_posts enabled: false; replace the body with a three-paragraph bio for a smart non-specialist.
-3. assets/img/prof_pic.jpg: my headshot, resized to about 800 px wide.
-4. _bibliography/papers.bib: only my peer-reviewed publications, as BibTeX with doi fields (use the DOIs in my CV). Give each an abbr (short journal name) and bibtex_show = {true}; add selected = {true} to my 3-5 most important papers.
-5. _news/: delete the example files and add 3-5 dated news items from my CV.
-6. _data/socials.yml: keep only the profiles I actually have (email, GitHub username, Google Scholar ID, ORCID, LinkedIn).
-7. In every file in _pages/ except about.md and publications.md, set nav: false, so the example CV, projects, blog, teaching and repositories pages are hidden.
-8. In .github/workflows/deploy.yml, change ruby-version: "3.3.5" to ruby-version: "3.3" (3.3.5 is no longer available on GitHub's runners).
+Template: https://github.com/alshedivat/al-folio
+My CV: [path/to/CV.pdf]
+My photo: [path/to/photo.jpg]
 
-Rules: use ONLY facts from my CV. Never invent a paper, award, date or number. Leave out grant numbers and dollar amounts, unpublished or "in preparation" work, and my home address and phone. Keep the LICENSE file and the al-folio credit in the footer.
+1. Create the GitHub repository [xulongfu]/[xulongfu].github.io from the template and clone it.
+2. Fill it from my CV: my name, a one-line description, a three-paragraph bio, my photo, my peer-reviewed publications (BibTeX with DOIs, my name in bold), 3-5 dated news items, and my email and GitHub links. Hide the template's example pages.
+3. Push, turn on GitHub Pages, and deploy the same site to Vercel.
 
-When you are done: git add, commit with the message "Personalize site from CV", push to main, and tell me which GitHub Actions run to watch and the address where the site will appear.
+Rules: use only facts from my CV and never invent anything. Leave out grant numbers and amounts, unpublished or "in preparation" work, and my home address and phone.
+
+Technical notes for you (al-folio, Nov 2026): the site lives at the root, so set url: https://[xulongfu].github.io and leave baseurl empty; clear the example middle_name; set nav: false on every page in _pages/ except about.md and publications.md; in .github/workflows/deploy.yml use ruby-version: "3.3" (3.3.5 fails on GitHub's current runners); the deploy workflow builds the site into the gh-pages branch, so point GitHub Pages at gh-pages / (root); for Vercel, deploy that built gh-pages branch as static files with the Vercel CLI, using the project name [xulongfu].
+
+When it is live, my site must be at https://[xulongfu].github.io (the root, not a sub-page) and at https://[xulongfu].vercel.app. Give me both links.

@@ -321,18 +321,18 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
 <section class="slide" id="step-3" aria-label="Slide 6: Step 3, fork al-folio and let an agent fill it">
   <div class="inner">
     <div class="head">
-      <p class="eyebrow">Step 3 · 5 min</p>
-      <h2>Copy al-folio, then let an AI agent fill it from your CV</h2>
+      <p class="eyebrow">Step 3 · 10 min, mostly waiting</p>
+      <h2>Give an AI agent the template, your CV and photo. It does the rest.</h2>
     </div>
     <div class="grid2">
       <div style="display:flex;flex-direction:column;gap:0.9rem;min-width:0">
         <ol>
-          <li>Open <a href="https://github.com/alshedivat/al-folio" target="_blank" rel="noopener">github.com/alshedivat/al-folio</a> → <b>Use this template → Create a new repository</b>. Name it <span class="inline-copy"><code data-copy>yourusername.github.io</code><button class="copy" type="button">Copy</button></span>, Public. (<b>Fork</b> also works; then open the <b>Actions</b> tab once and enable workflows.)</li>
-          <li>Copy it to your laptop, in the folder that holds your CV and photo:<br><span class="inline-copy"><code data-copy>git clone https://github.com/yourusername/yourusername.github.io.git</code><button class="copy" type="button">Copy</button></span></li>
-          <li>Start an agent in that folder: <span class="inline-copy"><code data-copy>cd yourusername.github.io && claude</code><button class="copy" type="button">Copy</button></span> (Claude Code; for Codex type <code>codex</code>).</li>
-          <li>Paste the agent prompt, replace the <span class="fill">[highlighted]</span> parts, and let it work. It edits the files, commits and pushes.</li>
+          <li>Once: install an agent (<a href="https://claude.com/claude-code" target="_blank" rel="noopener">Claude Code</a> or Codex) and log in to GitHub and Vercel from the terminal:<br><span class="inline-copy"><code data-copy>gh auth login</code><button class="copy" type="button">Copy</button></span> <span class="inline-copy"><code data-copy>npm i -g vercel && vercel login</code><button class="copy" type="button">Copy</button></span></li>
+          <li>Want <code>name.github.io</code>? <code>name</code> must be your GitHub username, or a free <a href="https://github.com/account/organizations/new?plan=free" target="_blank" rel="noopener">organization</a> you create with that name.</li>
+          <li>Put your CV and photo in one folder, open a terminal there and start the agent: <span class="inline-copy"><code data-copy>claude</code><button class="copy" type="button">Copy</button></span></li>
+          <li>Paste the prompt, replace the <span class="fill">[highlighted]</span> parts, press Enter. About ten minutes later you have two live links.</li>
         </ol>
-        <div class="note critical"><span class="lab">Tested today</span><p>al-folio’s deploy file asks for Ruby 3.3.5, which GitHub’s current runners no longer have, so the first build fails. The prompt includes the one-line fix (<code>ruby-version: "3.3"</code>). Read the result before you share the link.</p></div>
+        <div class="note critical"><span class="lab">Tested today</span><p>The technical notes in the prompt fix the traps we hit while running this on 9 Nov 2026: al-folio’s Ruby 3.3.5 pin fails on GitHub’s current runners, and GitHub Pages must serve the <code>gh-pages</code> branch. Read the site before you share the link.</p></div>
         <details>
           <summary>No coding agent? Use any AI chat and one file instead</summary>
           <div class="body">
@@ -379,22 +379,22 @@ OUTPUT
         </details>
       </div>
       <div class="copyblock">
-        <div class="copybar"><span>Agent prompt · al-folio from your CV</span><button class="copy" type="button">Copy</button></div>
-        <pre data-copy>You are working inside my copy of the al-folio academic website template (Jekyll). My CV is at <span class="fill">[../CV.pdf]</span> and my headshot at <span class="fill">[../photo.jpg]</span>. My GitHub username is <span class="fill">[yourusername]</span> and this repository is named <span class="fill">[yourusername.github.io]</span>.
+        <div class="copybar"><span>Agent prompt · template + CV + photo → two live sites</span><button class="copy" type="button">Copy</button></div>
+        <pre data-copy>Build and publish my academic website. Do every step yourself.
 
-Update the site from my CV, then commit and push to main:
-1. _config.yml: set first_name and last_name (clear the example middle_name), a one-sentence description of my research, and keywords. Set url: https://<span class="fill">[yourusername]</span>.github.io and leave baseurl empty (baseurl: ) because the repository is named yourusername.github.io. If the repository has any other name, use baseurl: /repository-name instead. Under scholar:, set last_name and first_name to my names so I am shown in bold in the publication list.
-2. _pages/about.md: subtitle = my position and lab; profile.more_info = department and university only; latest_posts enabled: false; replace the body with a three-paragraph bio for a smart non-specialist.
-3. assets/img/prof_pic.jpg: my headshot, resized to about 800 px wide.
-4. _bibliography/papers.bib: only my peer-reviewed publications, as BibTeX with doi fields (use the DOIs in my CV). Give each an abbr (short journal name) and bibtex_show = {true}; add selected = {true} to my 3-5 most important papers.
-5. _news/: delete the example files and add 3-5 dated news items from my CV.
-6. _data/socials.yml: keep only the profiles I actually have (email, GitHub username, Google Scholar ID, ORCID, LinkedIn).
-7. In every file in _pages/ except about.md and publications.md, set nav: false, so the example CV, projects, blog, teaching and repositories pages are hidden.
-8. In .github/workflows/deploy.yml, change ruby-version: "3.3.5" to ruby-version: "3.3" (3.3.5 is no longer available on GitHub's runners).
+Template: https://github.com/alshedivat/al-folio
+My CV: <span class="fill">[path/to/CV.pdf]</span>
+My photo: <span class="fill">[path/to/photo.jpg]</span>
 
-Rules: use ONLY facts from my CV. Never invent a paper, award, date or number. Leave out grant numbers and dollar amounts, unpublished or "in preparation" work, and my home address and phone. Keep the LICENSE file and the al-folio credit in the footer.
+1. Create the GitHub repository <span class="fill">[xulongfu]</span>/<span class="fill">[xulongfu]</span>.github.io from the template and clone it.
+2. Fill it from my CV: my name, a one-line description, a three-paragraph bio, my photo, my peer-reviewed publications (BibTeX with DOIs, my name in bold), 3-5 dated news items, and my email and GitHub links. Hide the template's example pages.
+3. Push, turn on GitHub Pages, and deploy the same site to Vercel.
 
-When you are done: git add, commit with the message "Personalize site from CV", push to main, and tell me which GitHub Actions run to watch and the address where the site will appear.</pre>
+Rules: use only facts from my CV and never invent anything. Leave out grant numbers and amounts, unpublished or "in preparation" work, and my home address and phone.
+
+Technical notes for you (al-folio, Nov 2026): the site lives at the root, so set url: https://<span class="fill">[xulongfu]</span>.github.io and leave baseurl empty; clear the example middle_name; set nav: false on every page in _pages/ except about.md and publications.md; in .github/workflows/deploy.yml use ruby-version: "3.3" (3.3.5 fails on GitHub's current runners); the deploy workflow builds the site into the gh-pages branch, so point GitHub Pages at gh-pages / (root); for Vercel, deploy that built gh-pages branch as static files with the Vercel CLI, using the project name <span class="fill">[xulongfu]</span>.
+
+When it is live, my site must be at https://<span class="fill">[xulongfu]</span>.github.io (the root, not a sub-page) and at https://<span class="fill">[xulongfu]</span>.vercel.app. Give me both links.</pre>
       </div>
     </div>
   </div>
@@ -412,7 +412,7 @@ When you are done: git add, commit with the message "Personalize site from CV", 
         <span class="tag">Address: yourusername.github.io</span>
         <h3>GitHub Pages</h3>
         <ol>
-          <li>The agent’s push starts <b>Deploy site</b> in your repository’s <b>Actions</b> tab (about 4 minutes). It builds the site into a branch called <code>gh-pages</code>.</li>
+          <li>The agent does these steps for you; this is what happens, and how to do it by hand. A push starts <b>Deploy site</b> in your repository’s <b>Actions</b> tab (about 2–4 minutes). It builds the site into a branch called <code>gh-pages</code>.</li>
           <li><b>Settings → Pages → Build and deployment → Deploy from a branch</b> → choose <span class="inline-copy"><code data-copy>gh-pages</code><button class="copy" type="button">Copy</button></span> and <b>/ (root)</b> → <b>Save</b>. Change it even if another branch is already selected.</li>
           <li>About a minute later: <code>https://yourusername.github.io</code>.</li>
         </ol>
