@@ -333,7 +333,30 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
           <li>Paste the prompt, replace the <span class="fill">[highlighted]</span> parts, press Enter. About ten minutes later you have two live links.</li>
         </ol>
         <div class="note critical"><span class="lab">Tested today</span><p>The technical notes in the prompt fix the three traps we hit while running this on 9 Nov 2026: al-folio’s Ruby 3.3.5 pin fails on GitHub’s current runners; GitHub Pages must serve the <code>gh-pages</code> branch; and Vercel mistakes the built site for a Python app unless <code>requirements.txt</code> is removed. Read the site before you share the link.</p></div>
-        <p class="small muted">Example result from this exact prompt: <a href="https://longfuxu.github.io/website-demo/" target="_blank" rel="noopener">longfuxu.github.io/website-demo</a> and <a href="https://website-demo-theta-ten.vercel.app/" target="_blank" rel="noopener">website-demo-theta-ten.vercel.app</a>.</p>
+        <details>
+          <summary>The exact prompt I pasted on stage, and what it built</summary>
+          <div class="body">
+            <p class="small">Built live on 9 Nov 2026 in about 15 minutes: <a href="https://xulongfu.github.io/" target="_blank" rel="noopener">xulongfu.github.io</a> and <a href="https://xulongfu.vercel.app/" target="_blank" rel="noopener">xulongfu.vercel.app</a> (online until 11 Nov 2026). <code>xulongfu</code> is a free GitHub organization, because my username’s own address was already in use.</p>
+            <div class="copyblock">
+              <div class="copybar"><span>Stage prompt · Longfu’s filled-in version</span><button class="copy" type="button">Copy</button></div>
+              <pre data-copy>Build and publish my academic website. Do every step yourself.
+
+Template: https://github.com/alshedivat/al-folio
+My CV: /Users/longfu/Desktop/website demo/CV_Longfu_Xu_Oct_2026.pdf
+My photo: /Users/longfu/Desktop/website demo/photo.jpg
+
+1. Create the GitHub repository xulongfu/xulongfu.github.io from the template and clone it.
+2. Fill it from my CV: my name, a one-line description, a three-paragraph bio, my photo, my peer-reviewed publications (BibTeX with DOIs, my name in bold), 3-5 dated news items, and my email and GitHub links. Hide the template's example pages.
+3. Push, turn on GitHub Pages, and deploy the same site to Vercel.
+
+Rules: use only facts from my CV and never invent anything. Leave out grant numbers and amounts (dollars or yuan), unpublished or "in preparation" work, and my home address and phone.
+
+Technical notes for you (al-folio, tested 9 Nov 2026): the site lives at the root, so set url: https://xulongfu.github.io and leave baseurl empty; clear the example middle_name; under scholar: set last_name and first_name to my names so I am bold in the publication list; set nav: false on every page in _pages/ except about.md and publications.md; in .github/workflows/*.yml change ruby-version "3.3.5" to "3.3" (3.3.5 fails on GitHub's current runners); the "Deploy site" workflow builds the site into the gh-pages branch, so point GitHub Pages at gh-pages / (root), even if the template already set another source; for Vercel, clone the built gh-pages branch into a folder named xulongfu, delete .git and requirements.txt from it (otherwise Vercel treats it as a Python app), add a vercel.json containing {"framework": null}, then run vercel deploy --prod --yes from that folder.
+
+When it is live, my site must be at https://xulongfu.github.io (the root, not a sub-page) and at https://xulongfu.vercel.app. Give me both links.</pre>
+            </div>
+          </div>
+        </details>
       </div>
       <div class="copyblock">
         <div class="copybar"><span>Agent prompt · template + CV + photo → two live sites</span><button class="copy" type="button">Copy</button></div>
@@ -349,7 +372,7 @@ My photo: <span class="fill">[path/to/photo.jpg]</span>
 
 Rules: use only facts from my CV and never invent anything. Leave out grant numbers and amounts, unpublished or "in preparation" work, and my home address and phone.
 
-Technical notes for you (al-folio, tested 9 Nov 2026): the site lives at the root, so set url: https://<span class="fill">[xulongfu]</span>.github.io and leave baseurl empty; clear the example middle_name; set nav: false on every page in _pages/ except about.md and publications.md; in .github/workflows/*.yml change ruby-version "3.3.5" to "3.3" (3.3.5 fails on GitHub's current runners); the "Deploy site" workflow builds the site into the gh-pages branch, so point GitHub Pages at gh-pages / (root), even if the template already set another source; for Vercel, clone the built gh-pages branch into a folder named <span class="fill">[xulongfu]</span>, delete .git and requirements.txt from it (otherwise Vercel treats it as a Python app), add a vercel.json containing {"framework": null}, then run vercel deploy --prod --yes from that folder.
+Technical notes for you (al-folio, tested 9 Nov 2026): the site lives at the root, so set url: https://<span class="fill">[xulongfu]</span>.github.io and leave baseurl empty; clear the example middle_name; under scholar: set last_name and first_name to my names (for example <span class="fill">[Xu]</span> and <span class="fill">[Longfu, L.]</span>) so I am bold in the publication list; set nav: false on every page in _pages/ except about.md and publications.md; in .github/workflows/*.yml change ruby-version "3.3.5" to "3.3" (3.3.5 fails on GitHub's current runners); the "Deploy site" workflow builds the site into the gh-pages branch, so point GitHub Pages at gh-pages / (root), even if the template already set another source; for Vercel, clone the built gh-pages branch into a folder named <span class="fill">[xulongfu]</span>, delete .git and requirements.txt from it (otherwise Vercel treats it as a Python app), add a vercel.json containing {"framework": null}, then run vercel deploy --prod --yes from that folder.
 
 When it is live, my site must be at https://<span class="fill">[xulongfu]</span>.github.io (the root, not a sub-page) and at https://<span class="fill">[xulongfu]</span>.vercel.app. Give me both links.</pre>
       </div>

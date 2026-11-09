@@ -6,10 +6,12 @@ import html, re, sys, pathlib
 kit = pathlib.Path(__file__).resolve().parent.parent
 src = (kit / "src/site.src.html").read_text()
 agent = (kit / "agent-prompt.txt").read_text().strip()
+stage = (kit / "stage-prompt.txt").read_text().strip()
 skill = (kit / "academic-website/SKILL.md").read_text().strip()
 qr = (kit / "src/qr.svg").read_text().strip().replace(' aria-label=', ' role="img" aria-label=', 1)
 fill = lambda t: re.sub(r"\[(?!TODO)[^\]\n]*\]", lambda m: f'<span class="fill">{m.group(0)}</span>', html.escape(t, quote=False))
 page = (src.replace("<!--AGENT_PROMPT-->", fill(agent))
+           .replace("<!--STAGE_PROMPT-->", html.escape(stage, quote=False))
            .replace("<!--SKILL_MD-->", html.escape(skill, quote=False))
            .replace("<!--QR_SVG-->", qr))
 assert "<!--AGENT_PROMPT-->" not in page and "<!--QR_SVG-->" not in page

@@ -1,0 +1,15 @@
+Build and publish my academic website. Do every step yourself.
+
+Template: https://github.com/alshedivat/al-folio
+My CV: /Users/longfu/Desktop/website demo/CV_Longfu_Xu_Oct_2026.pdf
+My photo: /Users/longfu/Desktop/website demo/photo.jpg
+
+1. Create the GitHub repository xulongfu/xulongfu.github.io from the template and clone it.
+2. Fill it from my CV: my name, a one-line description, a three-paragraph bio, my photo, my peer-reviewed publications (BibTeX with DOIs, my name in bold), 3-5 dated news items, and my email and GitHub links. Hide the template's example pages.
+3. Push, turn on GitHub Pages, and deploy the same site to Vercel.
+
+Rules: use only facts from my CV and never invent anything. Leave out grant numbers and amounts (dollars or yuan), unpublished or "in preparation" work, and my home address and phone.
+
+Technical notes for you (al-folio, tested 9 Nov 2026): the site lives at the root, so set url: https://xulongfu.github.io and leave baseurl empty; clear the example middle_name; under scholar: set last_name and first_name to my names so I am bold in the publication list; set nav: false on every page in _pages/ except about.md and publications.md; in .github/workflows/*.yml change ruby-version "3.3.5" to "3.3" (3.3.5 fails on GitHub's current runners); the "Deploy site" workflow builds the site into the gh-pages branch, so point GitHub Pages at gh-pages / (root), even if the template already set another source; for Vercel, clone the built gh-pages branch into a folder named xulongfu, delete .git and requirements.txt from it (otherwise Vercel treats it as a Python app), add a vercel.json containing {"framework": null}, then run vercel deploy --prod --yes from that folder.
+
+When it is live, my site must be at https://xulongfu.github.io (the root, not a sub-page) and at https://xulongfu.vercel.app. Give me both links.
