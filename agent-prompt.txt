@@ -1,7 +1,7 @@
 You are working inside my copy of the al-folio academic website template (Jekyll). My CV is at [../CV.pdf] and my headshot at [../photo.jpg]. My GitHub username is [yourusername] and this repository is named [yourusername.github.io].
 
 Update the site from my CV, then commit and push to main:
-1. _config.yml: set first_name, last_name, a one-sentence description of my research, and keywords. Set url: https://[yourusername].github.io and leave baseurl empty (baseurl: ) because the repository is named yourusername.github.io. If the repository has any other name, use baseurl: /repository-name instead. Under scholar:, set last_name and first_name to my names so I am shown in bold in the publication list.
+1. _config.yml: set first_name and last_name (clear the example middle_name), a one-sentence description of my research, and keywords. Set url: https://[yourusername].github.io and leave baseurl empty (baseurl: ) because the repository is named yourusername.github.io. If the repository has any other name, use baseurl: /repository-name instead. Under scholar:, set last_name and first_name to my names so I am shown in bold in the publication list.
 2. _pages/about.md: subtitle = my position and lab; profile.more_info = department and university only; latest_posts enabled: false; replace the body with a three-paragraph bio for a smart non-specialist.
 3. assets/img/prof_pic.jpg: my headshot, resized to about 800 px wide.
 4. _bibliography/papers.bib: only my peer-reviewed publications, as BibTeX with doi fields (use the DOIs in my CV). Give each an abbr (short journal name) and bibtex_show = {true}; add selected = {true} to my 3-5 most important papers.
