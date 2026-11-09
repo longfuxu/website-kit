@@ -64,8 +64,9 @@ Wait for "looks good" (or edits) before building.
 | **C. al-folio** (Jekyll; `alshedivat/al-folio`) | Many papers kept in a BibTeX file; news and projects pages | GitHub Pages via the repo's GitHub Actions workflow |
 | **D. Custom Astro / Next.js** | Heavy blog or custom design, and willing to use Vercel / Netlify | Vercel or Netlify (auto-detects the framework) |
 
-Default to A unless their answers clearly need B–D. Deployment is where beginners get stuck, so
-pick the path with the fewest moving parts.
+If they name a template (for example al-folio), use it. Otherwise default to A unless their answers
+clearly need B–D. Deployment is where beginners get stuck, so pick the path with the fewest moving
+parts.
 
 ## 4. Build
 
@@ -112,16 +113,34 @@ Commit. For a project repo also turn on **Settings → Pages → Deploy from a b
 Verify: `curl -sI https://<username>.github.io | head -1` should return `200` (allow 1–10 minutes
 for the first deploy).
 
-**Vercel instead** (free Hobby plan; the URL becomes `https://<project>.vercel.app`):
+**al-folio (option C), tested 2026-11-09:**
 
-- From GitHub: push the repository as above, then **vercel.com/new → Import** the repository →
-  **Deploy**. Every later commit redeploys automatically.
-- Without GitHub: drag the site folder onto **vercel.com/drop**, then sign in to claim the project
-  before the temporary deployment expires.
-- With the CLI: `npx vercel --prod` in the site folder (it asks them to log in once).
+- Create the repository with `gh repo create <name>/<name>.github.io --template alshedivat/al-folio --public`
+  (wait a few seconds before cloning; the template copy is asynchronous).
+- `_config.yml`: `url: https://<name>.github.io`, empty `baseurl` (or `/<repo>` for a project site),
+  clear the example `middle_name`, set `scholar.last_name`/`first_name` so their name is bold.
+- `nav: false` in every `_pages/*.md` except `about.md` and `publications.md`.
+- `.github/workflows/*.yml`: change `ruby-version: "3.3.5"` to `"3.3"`; 3.3.5 is not available on
+  GitHub's current runners and the first build fails.
+- Push; the **Deploy site** workflow builds into the `gh-pages` branch (≈ 1.5–4 min). Then point Pages at it,
+  even if the template pre-set another source:
+  `gh api -X PUT repos/<name>/<name>.github.io/pages -f "source[branch]=gh-pages" -f "source[path]=/"`
+  (use `-X POST` if Pages is not enabled yet).
 
-Options C/D: use the template's documented deploy (al-folio's GitHub Actions workflow; Vercel or
-Netlify "import from GitHub" for D). Confirm the live URL before moving on.
+**Vercel as well** (free Hobby plan; `https://<project>.vercel.app`, the project name is the folder name).
+Log in once with `npm i -g vercel@latest && vercel login` (device flow: they approve a link). For a
+one-file site, run `vercel deploy --prod --yes` in the site folder. For al-folio, deploy the built branch:
+
+```bash
+git clone -b gh-pages --depth 1 https://github.com/<name>/<name>.github.io.git <name>
+cd <name> && rm -rf .git requirements.txt && echo '{"framework": null}' > vercel.json
+vercel deploy --prod --yes
+```
+
+Without removing `requirements.txt`, Vercel treats the folder as a Python app ("No python entrypoint
+found"). If `<name>.vercel.app` is taken, Vercel adds a suffix; it can be changed under Settings → Domains.
+
+Confirm every live URL with `curl -sI` before moving on.
 
 ## 7. Custom domain (optional, about $11 a year)
 

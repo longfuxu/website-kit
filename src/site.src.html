@@ -232,13 +232,13 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
   <div class="inner">
     <div class="head">
       <p class="eyebrow">The plan</p>
-      <h2>Five steps. Steps 1–4 take about 15 minutes.</h2>
+      <h2>Five steps. Steps 1–4 take about 15–20 minutes.</h2>
     </div>
     <div class="grid5">
       <a class="card stepcard" href="#step-1"><span class="n">Step 1 · 2 min</span><h3>Pick a look</h3><span class="muted small">A template or a site you admire</span></a>
       <a class="card stepcard" href="#step-2"><span class="n">Step 2 · 3 min</span><h3>Decide the content</h3><span class="muted small">Your CV in three reading depths</span></a>
-      <a class="card stepcard" href="#step-3"><span class="n">Step 3 · 5 min</span><h3>Copy al-folio + agent</h3><span class="muted small">The agent fills it from your CV</span></a>
-      <a class="card stepcard" href="#step-4"><span class="n">Step 4 · 5 min</span><h3>Publish it free</h3><span class="muted small">GitHub Pages and Vercel</span></a>
+      <a class="card stepcard" href="#step-3"><span class="n">Step 3 · ≈ 10 min</span><h3>One prompt to an agent</h3><span class="muted small">Template + CV + photo</span></a>
+      <a class="card stepcard" href="#step-4"><span class="n">Step 4 · automatic</span><h3>Published free</h3><span class="muted small">GitHub Pages and Vercel</span></a>
       <a class="card stepcard" href="#step-5"><span class="n">Step 5 · later</span><h3>Your own domain</h3><span class="muted small">≈ $11 a year</span></a>
     </div>
     <div class="grid2">
@@ -248,8 +248,8 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
           <li>A laptop with a browser</li>
           <li>Your CV as a PDF (a public version: no grant numbers or unpublished work)</li>
           <li>A headshot saved as <code>photo.jpg</code></li>
-          <li>A free <a href="https://github.com/signup" target="_blank" rel="noopener">GitHub account</a>. Your username becomes your web address, so pick a professional one.</li>
-          <li>An AI coding agent: Claude Code or Codex (paid plan, about $20 a month), plus <code>git</code>. No agent? Step 3 has a one-file route that works with any free AI chat.</li>
+          <li>A free <a href="https://github.com/signup" target="_blank" rel="noopener">GitHub account</a> (your username becomes your web address, so pick a professional one) and a free <a href="https://vercel.com/signup" target="_blank" rel="noopener">Vercel account</a> (sign up with GitHub).</li>
+          <li>An AI coding agent: <a href="https://claude.com/claude-code" target="_blank" rel="noopener">Claude Code</a> or Codex (paid plan, about $20 a month).</li>
         </ul>
       </div>
       <div class="card">
@@ -273,7 +273,7 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
     </div>
     <div class="grid3">
       <a class="card" href="https://academicpages.github.io/" target="_blank" rel="noopener"><span class="tag">Classic</span><h3>Academic Pages</h3><span class="muted">Fork it on GitHub and edit simple text files. Sidebar with photo; pages for publications, talks and teaching.</span><span class="url">academicpages.github.io</span></a>
-      <a class="card" href="https://alshedivat.github.io/al-folio/" target="_blank" rel="noopener"><span class="tag">Clean · my v1</span><h3>al-folio</h3><span class="muted">Minimal and polished. Publications come from a BibTeX file; news, projects and blog built in. About 15k GitHub stars.</span><span class="url">alshedivat.github.io/al-folio</span></a>
+      <a class="card" href="https://alshedivat.github.io/al-folio/" target="_blank" rel="noopener"><span class="tag">Today’s template · my v1</span><h3>al-folio</h3><span class="muted">Minimal and polished. Publications come from a BibTeX file; news, projects and blog built in. About 15k GitHub stars.</span><span class="url">alshedivat.github.io/al-folio</span></a>
       <a class="card" href="https://github.com/topics/academic-website" target="_blank" rel="noopener"><span class="tag">The collection</span><h3>GitHub topic: academic-website</h3><span class="muted">Every repository tagged as an academic website, 800+ of them. Sort by stars to see the most-used templates.</span><span class="url">github.com/topics/academic-website</span></a>
       <a class="card" href="https://hugoblox.com/templates/" target="_blank" rel="noopener"><span class="tag">More layouts</span><h3>Hugo Blox</h3><span class="muted">Academic CV and research-group templates in many styles.</span><span class="url">hugoblox.com/templates</span></a>
       <a class="card" href="https://astro.build/themes/" target="_blank" rel="noopener"><span class="tag">Modern</span><h3>Astro themes</h3><span class="muted">Portfolio designs if you want something less traditional.</span><span class="url">astro.build/themes</span></a>
@@ -321,22 +321,13 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
     <div class="grid2">
       <div style="display:flex;flex-direction:column;gap:0.9rem;min-width:0">
         <ol>
-          <li>Once: install an agent (<a href="https://claude.com/claude-code" target="_blank" rel="noopener">Claude Code</a> or Codex) and log in to GitHub and Vercel from the terminal:<br><span class="inline-copy"><code data-copy>gh auth login</code><button class="copy" type="button">Copy</button></span> <span class="inline-copy"><code data-copy>npm i -g vercel && vercel login</code><button class="copy" type="button">Copy</button></span></li>
+          <li>Once: install an agent (<a href="https://claude.com/claude-code" target="_blank" rel="noopener">Claude Code</a> or Codex) and log in to GitHub and Vercel from the terminal (each opens a link you approve in the browser):<br><span class="inline-copy"><code data-copy>gh auth login</code><button class="copy" type="button">Copy</button></span> <span class="inline-copy"><code data-copy>npm i -g vercel@latest && vercel login</code><button class="copy" type="button">Copy</button></span></li>
           <li>Want <code>name.github.io</code>? <code>name</code> must be your GitHub username, or a free <a href="https://github.com/account/organizations/new?plan=free" target="_blank" rel="noopener">organization</a> you create with that name.</li>
           <li>Put your CV and photo in one folder, open a terminal there and start the agent: <span class="inline-copy"><code data-copy>claude</code><button class="copy" type="button">Copy</button></span></li>
           <li>Paste the prompt, replace the <span class="fill">[highlighted]</span> parts, press Enter. About ten minutes later you have two live links.</li>
         </ol>
-        <div class="note critical"><span class="lab">Tested today</span><p>The technical notes in the prompt fix the traps we hit while running this on 9 Nov 2026: al-folio’s Ruby 3.3.5 pin fails on GitHub’s current runners, and GitHub Pages must serve the <code>gh-pages</code> branch. Read the site before you share the link.</p></div>
-        <details>
-          <summary>No coding agent? Use any AI chat and one file instead</summary>
-          <div class="body">
-            <p class="small">Attach your CV and a screenshot of a site you like, paste this prompt into Claude, ChatGPT or Gemini (free tier is fine), and you get one <code>index.html</code>. Upload it to a repository named <code>yourusername.github.io</code> (<b>Add file → Upload files</b>) and it is live in a minute, no build needed.</p>
-            <div class="copyblock">
-              <div class="copybar"><span>Master prompt · any AI chat</span><button class="copy" type="button">Copy</button></div>
-              <pre data-copy><!--MASTER_PROMPT--></pre>
-            </div>
-          </div>
-        </details>
+        <div class="note critical"><span class="lab">Tested today</span><p>The technical notes in the prompt fix the three traps we hit while running this on 9 Nov 2026: al-folio’s Ruby 3.3.5 pin fails on GitHub’s current runners; GitHub Pages must serve the <code>gh-pages</code> branch; and Vercel mistakes the built site for a Python app unless <code>requirements.txt</code> is removed. Read the site before you share the link.</p></div>
+        <p class="small muted">Example result from this exact prompt: <a href="https://longfuxu.github.io/website-demo/" target="_blank" rel="noopener">longfuxu.github.io/website-demo</a> and <a href="https://website-demo-theta-ten.vercel.app/" target="_blank" rel="noopener">website-demo-theta-ten.vercel.app</a>.</p>
       </div>
       <div class="copyblock">
         <div class="copybar"><span>Agent prompt · template + CV + photo → two live sites</span><button class="copy" type="button">Copy</button></div>
@@ -368,12 +359,16 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
         <span class="tag">Address: name.vercel.app · what I use</span>
         <h3>Vercel</h3>
         <ol>
-          <li>On <a href="https://vercel.com/new" target="_blank" rel="noopener">vercel.com/new</a>, sign in with GitHub (free Hobby plan) and <b>Import</b> the same repository. Not in the list? Click <b>Adjust GitHub App Permissions</b> and add it.</li>
-          <li>Before <b>Deploy</b>, set Framework Preset <span class="inline-copy"><code data-copy>Other</code><button class="copy" type="button">Copy</button></span>, Build Command empty (Override on, leave blank), Output Directory <span class="inline-copy"><code data-copy>.</code><button class="copy" type="button">Copy</button></span>.</li>
-          <li>In the project’s settings, set the <b>Production Branch</b> to <code>gh-pages</code>, then <b>Redeploy</b>. Vercel now serves the site GitHub already built and updates on every push.</li>
-          <li>Your address is <code>https://repository-name.vercel.app</code>; change it under <b>Settings → Domains</b>.</li>
+          <li>Log in once (free Hobby plan): <span class="inline-copy"><code data-copy>npm i -g vercel@latest && vercel login</code><button class="copy" type="button">Copy</button></span></li>
+          <li>Take the site GitHub already built (the <code>gh-pages</code> branch) and deploy it as plain files. Replace every <code>yourname</code>:</li>
         </ol>
-        <p class="small muted"><b>Quickest alternative:</b> on GitHub switch to the <code>gh-pages</code> branch → <b>Code → Download ZIP</b> → unzip → drag the folder onto <a href="https://vercel.com/drop" target="_blank" rel="noopener">vercel.com/drop</a>.</p>
+        <div class="copyblock short">
+          <div class="copybar"><span>Terminal · deploy the built site to Vercel</span><button class="copy" type="button">Copy</button></div>
+          <pre data-copy>git clone -b gh-pages --depth 1 https://github.com/yourname/yourname.github.io.git yourname
+cd yourname && rm -rf .git requirements.txt && echo '{"framework": null}' > vercel.json
+vercel deploy --prod --yes</pre>
+        </div>
+        <p class="small">The folder name becomes the project name, so the address is <code>https://yourname.vercel.app</code> if nobody has taken it; otherwise Vercel adds a suffix, which you can change under <b>Settings → Domains</b>. Run the same three lines again after each update.</p>
       </div>
     </div>
     <div class="note pause"><span class="lab">Pause point</span><p>Your site is live on both. The domain can wait for another day.</p></div>
@@ -441,11 +436,11 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th></th><th>Website builder (Wix)</th><th class="hl">AI chat + free hosting (today)</th><th>AI agent + template (my site)</th></tr></thead>
+        <thead><tr><th></th><th>Website builder (Wix)</th><th>AI chat + one HTML file</th><th class="hl">AI agent + template (today, my site)</th></tr></thead>
         <tbody>
-          <tr><td><b>Coding</b></td><td>None</td><td>None: copy and paste</td><td>None: you describe changes</td></tr>
-          <tr><td><b>Cost per year</b></td><td>≈ $204 (Light plan, billed annually)</td><td>$0</td><td>$0, plus an AI plan (≈ $20/month) while you build</td></tr>
-          <tr><td><b>First version</b></td><td>Visual drag and drop</td><td>≈ 15 minutes</td><td>≈ 1 hour</td></tr>
+          <tr><td><b>Coding</b></td><td>None</td><td>None: copy and paste</td><td>None: you write one prompt</td></tr>
+          <tr><td><b>Cost per year</b></td><td>≈ $204 (Light plan, billed annually)</td><td>$0 (free AI tier)</td><td>$0 hosting, plus an AI plan (≈ $20/month) while you build</td></tr>
+          <tr><td><b>First version</b></td><td>Visual drag and drop</td><td>≈ 15 minutes, one page</td><td>≈ 15 minutes, full template</td></tr>
           <tr><td><b>Updates</b></td><td>Click and edit</td><td>Paste a new version</td><td>“Add this paper: DOI”</td></tr>
           <tr><td><b>Leaving later</b></td><td>Hard: the site stays on Wix</td><td>Easy: it is one file</td><td>Easy: it is your repository</td></tr>
         </tbody>
@@ -499,12 +494,14 @@ footer.end { font-size: 0.85rem; color: var(--muted); display: flex; flex-direct
               <table>
                 <thead><tr><th>Problem</th><th>Fix</th></tr></thead>
                 <tbody>
-                  <tr><td>The AI’s reply stops halfway</td><td>Say “continue”, or “give me the complete index.html again in one code block”.</td></tr>
-                  <tr><td>404 at yourusername.github.io</td><td>Wait 2–5 minutes. Check the repository name matches your username, the file is <code>index.html</code> (lowercase) at the top level, and Settings → Pages shows a deployment.</td></tr>
-                  <tr><td>The page shows code or odd symbols</td><td>The file was saved as rich text. Paste the code straight into GitHub’s editor instead.</td></tr>
-                  <tr><td>The photo does not show</td><td>Names are case-sensitive: <code>photo.jpg</code> is not <code>Photo.JPG</code>.</td></tr>
+                  <tr><td>“Deploy site” fails at Setup Ruby</td><td>In <code>.github/workflows/deploy.yml</code> set <code>ruby-version: "3.3"</code> and push again.</td></tr>
+                  <tr><td>“Deploy site” fails with permission denied</td><td>Settings → Actions → General → Workflow permissions → Read and write.</td></tr>
+                  <tr><td>404 at yourname.github.io</td><td>Settings → Pages must say <b>gh-pages / (root)</b>. The repository must be named exactly <code>yourname.github.io</code> and owned by the account or organization <code>yourname</code>. Wait a minute and reload.</td></tr>
+                  <tr><td>Want a name that is not your username</td><td>Create a free GitHub <a href="https://github.com/account/organizations/new?plan=free" target="_blank" rel="noopener">organization</a> with that name; you manage it from your own account.</td></tr>
+                  <tr><td>Your name shows as “Name R. Xu”</td><td>Clear <code>middle_name:</code> in <code>_config.yml</code>.</td></tr>
+                  <tr><td>Vercel: “No python entrypoint found”</td><td>Delete <code>requirements.txt</code> from the folder you deploy and add <code>vercel.json</code> with <code>{"framework": null}</code>.</td></tr>
+                  <tr><td>The address is name-xyz.vercel.app</td><td>Someone already has <code>name.vercel.app</code>. Pick another name under Settings → Domains.</td></tr>
                   <tr><td>The AI added a paper or award I do not have</td><td>Delete it and remind it: “Use only facts from my CV.”</td></tr>
-                  <tr><td>No GitHub account yet</td><td>Use vercel.com/drop, or <a href="https://app.netlify.com/drop" target="_blank" rel="noopener">Netlify Drop</a>; claim the site with a free account before it expires.</td></tr>
                   <tr><td>Custom domain not working yet</td><td>DNS can take hours. Check the four A records and the www CNAME, remove parking records, then enable HTTPS.</td></tr>
                 </tbody>
               </table>
